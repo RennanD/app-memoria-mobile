@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "memoria-mobile",
-    "slug": "memoria-mobile",
+    "name": "App Memória",
+    "slug": "App Memória",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -32,8 +32,14 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "com.resolute.app_memoria",
+      "versionCode": 1
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.resolute.app_memoria",
+      "buildNumber": "1.0.0"
     },
     "web": {
       "favicon": "./assets/favicon.png"
