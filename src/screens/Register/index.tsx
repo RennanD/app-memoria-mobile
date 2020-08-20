@@ -135,7 +135,7 @@ const Register: React.FC = () => {
 
         <PickerInput
           name="gender"
-          icon="gender"
+          icon="gender-male-female"
           placeholder="Selecione um gênero"
           items={[
             { label: 'Masculino', value: 'masculino' },

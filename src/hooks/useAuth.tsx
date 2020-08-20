@@ -11,7 +11,7 @@ import { Alert } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { useVerification } from '.';
+// import { useVerification } from '.';
 
 import api from '../services/api';
 
@@ -39,6 +39,7 @@ interface AuthState {
 
 interface AuthContextData {
   account: Account;
+  authLoading: boolean;
   signIn(credencials: SingInCredencials): Promise<void>;
   signOut(): Promise<void>;
   updateAvatar(user: User): Promise<void>;
@@ -48,11 +49,13 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>({} as AuthState);
+  const [authLoading, setAuthloading] = useState(false);
 
-  const { cancelVerify } = useVerification();
+  // const { cancelVerify } = useVerification();
 
   useEffect(() => {
     async function loadAccount(): Promise<void> {
+      setAuthloading(true);
       const token = await AsyncStorage.getItem('@memoria:token');
       const account = await AsyncStorage.getItem('@memoria:account');
 
@@ -60,6 +63,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         api.defaults.headers.authorization = `Bearer ${token}`;
         setData({ token, account: JSON.parse(account) });
       }
+      setAuthloading(false);
     }
 
     loadAccount();
@@ -93,10 +97,10 @@ export const AuthProvider: React.FC = ({ children }) => {
     await AsyncStorage.removeItem('@memoria:token');
     await AsyncStorage.removeItem('@memoria:account');
 
-    cancelVerify();
+    // cancelVerify();
 
     setData({} as AuthState);
-  }, [cancelVerify, data]);
+  }, [data]);
 
   const updateAvatar = useCallback(
     async (user: User) => {
@@ -112,7 +116,13 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ account: data.account, signIn, signOut, updateAvatar }}
+      value={{
+        account: data.account,
+        signIn,
+        signOut,
+        updateAvatar,
+        authLoading,
+      }}
     >
       {children}
     </AuthContext.Provider>

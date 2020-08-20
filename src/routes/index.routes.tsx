@@ -1,20 +1,22 @@
 import React from 'react';
 
-import { useVerification, useAuth } from '../hooks';
+import { AppLoading } from 'expo';
+
+import { useAuth } from '../hooks';
 
 import AuthRoutes from './auth.routes';
-import VerificationRoutes from './verification.routes';
+// import VerificationRoutes from './verification.routes';
 import AppRoutes from './app.routes';
 
 const Routes: React.FC = () => {
-  const { verified } = useVerification();
-  const { account } = useAuth();
+  // const { verified, verifyLoading } = useVerification();
+  const { account, authLoading } = useAuth();
 
-  if (account) {
-    return <AppRoutes />;
+  if (authLoading) {
+    return <AppLoading />;
   }
 
-  return verified ? <AuthRoutes /> : <VerificationRoutes />;
+  return account ? <AppRoutes /> : <AuthRoutes />;
 };
 
 export default Routes;

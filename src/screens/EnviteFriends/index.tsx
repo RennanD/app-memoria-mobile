@@ -14,7 +14,7 @@ import {
 const EnviteFriends: React.FC = () => {
   const handleEnvite = useCallback(() => {
     // eslint-disable-next-line prettier/prettier
-    const message = 'Olá, estou o app Mémoria, venha aproveitar você também essa novidade';
+    const message = 'Olá, estou o app Mémoria, venha aproveitar você também essa novidade, clique aqui para fazer o download \n https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40rennand/app-memoria-6947e1fbb57f41f2b5de29cc08b7c3c4-signed.apk';
 
     Linking.openURL(`whatsapp://send?text=${message}`);
   }, []);

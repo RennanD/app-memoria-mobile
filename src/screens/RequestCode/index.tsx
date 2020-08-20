@@ -30,9 +30,14 @@ const RequestCode: React.FC = () => {
     const formatted_phone = `+55${phone_number.replace(/\s/g, '')}`;
 
     try {
-      await requestCode(formatted_phone);
+      const registered = await requestCode(formatted_phone);
 
-      navigate('VerifyCode');
+      if (registered) {
+        navigate('Login');
+      } else {
+        navigate('Register');
+      }
+
       setLoading(false);
     } catch (error) {
       setLoading(false);
