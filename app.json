@@ -2,7 +2,7 @@
   "expo": {
     "name": "App Memória",
     "slug": "app-memoria",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "packagerOpts": {
@@ -34,7 +34,7 @@
     ],
     "android": {
       "package": "com.resolute.app_memoria",
-      "versionCode": 101
+      "versionCode": 102
     },
     "ios": {
       "supportsTablet": true
