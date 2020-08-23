@@ -10,13 +10,12 @@ import {
   SectionMessages,
   MessageButtom,
   ImageMessageContent,
-  EmptyView,
-  EmptyViewText,
 } from './styles';
 
 import MessageModal from './MessageModal';
 
 import api from '../../services/api';
+import EmptyView from '../../components/EmptyView';
 
 interface Message {
   id: string;
@@ -56,11 +55,29 @@ const MyMessages: React.FC = () => {
     [handlToggleModal],
   );
 
+  if (!messages.length) {
+    return (
+      <Container>
+        <Header>
+          <MaterialCommunityIcons name="wechat" size={100} color="#65c4b0" />
+          <PageTitle numberOfLines={4}>
+            Escolha e envie alguma mensagem
+          </PageTitle>
+        </Header>
+
+        <EmptyView
+          text="Ainda não há mensagens cadastradas"
+          icon="message-circle"
+        />
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <Header>
         <MaterialCommunityIcons name="wechat" size={100} color="#65c4b0" />
-        <PageTitle numberOfLines={4}>Minhas mensagens</PageTitle>
+        <PageTitle numberOfLines={4}>Escolha e envie alguma mensagem</PageTitle>
       </Header>
 
       {messages.map(message => (
@@ -68,42 +85,29 @@ const MyMessages: React.FC = () => {
           <SectionTitle key={message.message_type}>
             {`Mensagens de ${message.message_type}`}
           </SectionTitle>
-          {message.messages.length ? (
-            <SectionMessages>
-              {message.messages.map(newMessage => (
-                <MessageButtom
-                  onPress={() => handleShowMessage(newMessage.message_content)}
-                  key={newMessage.id}
-                  style={{
-                    shadowColor: '#000',
-                    shadowOffset: {
-                      width: 0,
-                      height: 1,
-                    },
-                    shadowOpacity: 0.2,
-                    shadowRadius: 1.41,
+          <SectionMessages>
+            {message.messages.map(newMessage => (
+              <MessageButtom
+                onPress={() => handleShowMessage(newMessage.message_content)}
+                key={newMessage.id}
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.2,
+                  shadowRadius: 1.41,
 
-                    elevation: 2,
-                  }}
-                >
-                  <ImageMessageContent
-                    source={{ uri: newMessage.message_content }}
-                  />
-                </MessageButtom>
-              ))}
-            </SectionMessages>
-          ) : (
-            <EmptyView>
-              <MaterialCommunityIcons
-                name="alert-circle-outline"
-                color="#ddd"
-                size={40}
-              />
-              <EmptyViewText>
-                Não há mesnsages de texto cadastradas.
-              </EmptyViewText>
-            </EmptyView>
-          )}
+                  elevation: 2,
+                }}
+              >
+                <ImageMessageContent
+                  source={{ uri: newMessage.message_content }}
+                />
+              </MessageButtom>
+            ))}
+          </SectionMessages>
         </>
       ))}
       <MessageModal

@@ -24,8 +24,9 @@ import api from '../../services/api';
 
 interface Events {
   monthDay: number;
+  type: 'generic-date' | 'important-date';
   id: string;
-  contact_id: string;
+  contact_id?: string;
   user_id: string;
   date: Date;
   description: string;
@@ -38,13 +39,13 @@ interface ImportantDates {
 
 const ListDates: React.FC = () => {
   const [dates, setDates] = useState<ImportantDates[]>([] as ImportantDates[]);
-  const [month, setMonth] = useState(0);
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
 
   const { navigate } = useNavigation();
 
   const handleShowDate = useCallback(
-    (eventId: string) => {
-      navigate('ReminderDetail', { important_date_id: eventId });
+    (eventId: string, route: string) => {
+      navigate(route, { important_date_id: eventId });
     },
     [navigate],
   );
@@ -88,7 +89,10 @@ const ListDates: React.FC = () => {
           <PageTitle>Datas importantes</PageTitle>
         </Header>
 
-        <ListDateHeader onChangeMonth={value => setMonth(Number(value))} />
+        <ListDateHeader
+          onChangeMonth={value => setMonth(Number(value))}
+          currentMonth={String(month)}
+        />
 
         <EmptyView>
           <MaterialCommunityIcons
@@ -111,7 +115,10 @@ const ListDates: React.FC = () => {
         <PageTitle>Datas importantes</PageTitle>
       </Header>
 
-      <ListDateHeader onChangeMonth={value => setMonth(Number(value))} />
+      <ListDateHeader
+        onChangeMonth={value => setMonth(Number(value))}
+        currentMonth={String(month)}
+      />
 
       <ListDatesItem>
         <ListDatesDay>
@@ -125,22 +132,35 @@ const ListDates: React.FC = () => {
 
       <ListDatesView>
         {dates.map(dateItem => (
-          <ListDatesItem key={dateItem.monthDay}>
+          <ListDatesItem>
             <ListDatesDay>
               <ListDatesText>{dateItem.monthDay}</ListDatesText>
             </ListDatesDay>
 
             <ListDatesMonth>
-              {dateItem.events
-                .map(event => (
+              {dateItem.events.map(event => {
+                if (event.type === 'important-date') {
+                  return (
+                    <EnventLabel
+                      key={event.id}
+                      onPress={() => handleShowDate(event.id, 'ReminderDetail')}
+                    >
+                      <EventLabelText>{event.description}</EventLabelText>
+                    </EnventLabel>
+                  );
+                }
+                return (
                   <EnventLabel
                     key={event.id}
-                    onPress={() => handleShowDate(event.id)}
+                    onPress={() => {
+                      handleShowDate(event.id, 'GenericReminderDetail');
+                    }}
+                    style={{ backgroundColor: '#2193f6' }}
                   >
                     <EventLabelText>{event.description}</EventLabelText>
                   </EnventLabel>
-                ))
-                .sort()}
+                );
+              })}
             </ListDatesMonth>
           </ListDatesItem>
         ))}

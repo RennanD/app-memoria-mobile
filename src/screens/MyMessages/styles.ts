@@ -19,6 +19,7 @@ export const Header = styled.View`
 export const PageTitle = styled.Text`
   font-size: 24px;
   color: #65c4b0;
+  text-align: center;
 `;
 
 export const SectionTitle = styled.Text`
@@ -56,17 +57,4 @@ export const ImageMessageContent = styled.Image`
   height: 100%;
   width: 100%;
   border-radius: 4px;
-`;
-
-export const EmptyView = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-`;
-
-export const EmptyViewText = styled.Text`
-  font-size: 20px;
-  color: #ddd;
-  text-align: center;
 `;

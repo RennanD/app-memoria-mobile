@@ -3,7 +3,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Menu from '../screens/Menu';
 import DateRoutes from './date.routes';
-import MessagesRoutes from './messages.routes';
 import Notifications from '../screens/Notifications';
 
 import EnviteFriends from '../screens/EnviteFriends';
@@ -13,6 +12,8 @@ import ContactDetail from '../screens/ContactDetail';
 import Preferences from '../screens/Preferences';
 import ContactsPreferences from '../screens/ContactsPreferences';
 import Profile from '../screens/Profile';
+import GenericReminderDetail from '../screens/GenericReminderDetail';
+import MyMessages from '../screens/MyMessages';
 
 const AppRoutes: React.FC = () => {
   const { Navigator, Screen } = createStackNavigator();
@@ -22,10 +23,11 @@ const AppRoutes: React.FC = () => {
       <Screen name="Menu" component={Menu} />
       <Screen name="PreferencesRoutes" component={Preferences} />
       <Screen name="DateRoutes" component={DateRoutes} />
-      <Screen name="MessagesRoutes" component={MessagesRoutes} />
+      <Screen name="MessagesRoutes" component={MyMessages} />
       <Screen name="EnviteFriends" component={EnviteFriends} />
       <Screen name="Notifications" component={Notifications} />
       <Screen name="ReminderDetail" component={ReminderDetail} />
+      <Screen name="GenericReminderDetail" component={GenericReminderDetail} />
       <Screen name="Contacts" component={Contacts} />
       <Screen name="ContactDetail" component={ContactDetail} />
       <Screen name="Profile" component={Profile} />

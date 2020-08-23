@@ -18,7 +18,7 @@ const CreateDate: React.FC = () => {
 
   const [indexTab, setIndexTab] = useState(0);
   const [routes] = useState<Routes[]>([
-    { key: 'first', title: 'Novo contato' },
+    { key: 'first', title: 'Sem contato' },
     { key: 'second', title: 'Contato existente' },
   ]);
 

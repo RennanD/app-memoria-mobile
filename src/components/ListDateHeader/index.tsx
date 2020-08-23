@@ -1,17 +1,19 @@
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-
 import RNPickerSelect from 'react-native-picker-select';
 
 import { Container } from './styles';
 
 interface HeaderProps {
   onChangeMonth(value: string): void;
+  currentMonth: string;
 }
 
-const ListDateHeader: React.FC<HeaderProps> = ({ onChangeMonth }) => {
+const ListDateHeader: React.FC<HeaderProps> = ({
+  onChangeMonth,
+  currentMonth,
+}) => {
   const handleChangeMonth = useCallback(
     value => {
       onChangeMonth(value);
@@ -72,21 +74,14 @@ const ListDateHeader: React.FC<HeaderProps> = ({ onChangeMonth }) => {
 
   return (
     <Container>
-      <MaterialCommunityIcons
-        name="notification-clear-all"
-        size={26}
-        color="#333"
-      />
-
-      <View style={{ width: '50%' }}>
+      <View style={{ width: '100%' }}>
         <RNPickerSelect
+          value={currentMonth}
           placeholder={{ label: 'Selecione um mês' }}
           onValueChange={itemValue => handleChangeMonth(itemValue)}
           items={months}
         />
       </View>
-
-      <MaterialCommunityIcons name="dots-vertical" size={26} color="#333" />
     </Container>
   );
 };

@@ -17,6 +17,7 @@ import Accordion from '../../components/Accordion';
 import api from '../../services/api';
 
 import { useAuth } from '../../hooks';
+import EmptyView from '../../components/EmptyView';
 
 interface PreferenceItemProps {
   category: string;
@@ -145,23 +146,32 @@ const Preferences: React.FC = () => {
           Escolha aqui suas preferências e seu gostos pessoais
         </PageTitle>
       </Header>
-      <PreferencesContainer>
-        {preferencesItems.map(preference => (
-          <Accordion
-            key={preference.category}
-            title={preference.category}
-            onPress={() => handleToggleAccordion(preference.category)}
-            opened={activeItem === preference.category}
-            items={preference.subcategories}
-            onSelectItem={handleSelectItem}
-            selectedItems={selectedSubategories}
-          />
-        ))}
-      </PreferencesContainer>
+      {!preferencesItems.length ? (
+        <EmptyView
+          text="Nenhuma preferência foi cadastrada ainda"
+          icon="heart"
+        />
+      ) : (
+        <PreferencesContainer>
+          {preferencesItems.map(preference => (
+            <Accordion
+              key={preference.category}
+              title={preference.category}
+              onPress={() => handleToggleAccordion(preference.category)}
+              opened={activeItem === preference.category}
+              items={preference.subcategories}
+              onSelectItem={handleSelectItem}
+              selectedItems={selectedSubategories}
+            />
+          ))}
+        </PreferencesContainer>
+      )}
 
-      <SubmitButton onPress={handleSubmit} style={boxShadownEffect}>
-        <SubmitButtonText>Adicionar</SubmitButtonText>
-      </SubmitButton>
+      {!!preferencesItems.length && (
+        <SubmitButton onPress={handleSubmit} style={boxShadownEffect}>
+          <SubmitButtonText>Adicionar</SubmitButtonText>
+        </SubmitButton>
+      )}
     </Container>
   );
 };

@@ -19,6 +19,7 @@ import { Contacts as ContactsIcon } from '../../assets';
 import api from '../../services/api';
 
 import { User } from '../../hooks/useAuth';
+import EmptyView from '../../components/EmptyView';
 
 interface Contact {
   id: string;
@@ -49,6 +50,19 @@ const Contacts: React.FC = () => {
 
     loadContacts();
   }, []);
+
+  if (!contacts.length) {
+    return (
+      <Container>
+        <Header>
+          <ContactsIcon width="60" height="60" />
+          <PageTitle>Meus contatos</PageTitle>
+        </Header>
+
+        <EmptyView text="Ainda não há contatos adicinados" icon="user" />
+      </Container>
+    );
+  }
 
   return (
     <Container>
