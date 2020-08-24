@@ -41,3 +41,15 @@ export const ContactName = styled.Text`
   margin-left: 10px;
   flex: 1;
 `;
+
+export const FloatButton = styled.TouchableOpacity`
+  height: 50px;
+  width: 50px;
+  background: #65c4b0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  right: 20px;
+  bottom: 20px;
+  position: absolute;
+`;

@@ -43,8 +43,6 @@ const Register: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const passwordRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
-  const cpfRef = useRef<TextInput>(null);
-  const addressRef = useRef<TextInput>(null);
 
   const handleSubmit = useCallback(
     async (data: SingUpData) => {
@@ -119,16 +117,6 @@ const Register: React.FC = () => {
           options={{
             mask: '+99 99 9 9999 9999',
           }}
-          onSubmitEditing={() => cpfRef.current?.focus()}
-        />
-
-        <MaskedInput
-          ref={cpfRef}
-          icon="account-badge-horizontal-outline"
-          placeholder="CPF"
-          name="cpf"
-          returnKeyType="next"
-          type="cpf"
         />
 
         <DatePickerInput name="birthday" placeholder="Data de nascimento" />
@@ -150,15 +138,6 @@ const Register: React.FC = () => {
           name="zipcode"
           returnKeyType="send"
           type="zip-code"
-          onSubmitEditing={() => addressRef.current?.focus()}
-        />
-
-        <Input
-          ref={addressRef}
-          icon="home"
-          placeholder="Endereço"
-          name="address"
-          returnKeyType="send"
           onSubmitEditing={() => formRef.current?.submitForm()}
         />
 

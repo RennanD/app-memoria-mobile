@@ -22,61 +22,6 @@ interface Request {
 }
 
 const NewContactDate: React.FC = () => {
-  // const pickerItems = [
-  //   {
-  //     label: 'Pai',
-  //     value: 'pai',
-  //   },
-  //   {
-  //     label: 'Mãe',
-  //     value: 'mãe',
-  //   },
-  //   {
-  //     label: 'Avó',
-  //     value: 'avó',
-  //   },
-  //   {
-  //     label: 'Avô',
-  //     value: 'avô',
-  //   },
-  //   {
-  //     label: 'Tio',
-  //     value: 'tio',
-  //   },
-  //   {
-  //     label: 'Tia',
-  //     value: 'tia',
-  //   },
-  //   {
-  //     label: 'Irmão',
-  //     value: 'irmão',
-  //   },
-  //   {
-  //     label: 'Irmã',
-  //     value: 'irmã',
-  //   },
-  //   {
-  //     label: 'Primo',
-  //     value: 'primo',
-  //   },
-  //   {
-  //     label: 'Prima',
-  //     value: 'prima',
-  //   },
-  //   {
-  //     label: 'Amigo',
-  //     value: 'amigo',
-  //   },
-  //   {
-  //     label: 'Amiga',
-  //     value: 'amiga',
-  //   },
-  //   {
-  //     label: 'Namorada',
-  //     value: 'namorada',
-  //   },
-  // ];
-
   const formRef = useRef<FormHandles>(null);
 
   const [loading, setLoading] = useState(false);
@@ -94,8 +39,6 @@ const NewContactDate: React.FC = () => {
       Alert.alert('Sucesso', 'Evento cadastrado com sucesso');
       setLoading(false);
     } catch ({ response }) {
-      console.log(response);
-
       Alert.alert('Erro', response.data.message);
       setLoading(false);
     }
