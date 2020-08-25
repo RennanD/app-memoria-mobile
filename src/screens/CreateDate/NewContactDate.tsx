@@ -12,6 +12,7 @@ import DatePickerInput from '../../components/DatePickerInput/index.android';
 import Button from '../../components/Button';
 
 import api from '../../services/api';
+import PickerInput from '../../components/PickerInput';
 
 interface Request {
   name: string;
@@ -22,6 +23,61 @@ interface Request {
 }
 
 const NewContactDate: React.FC = () => {
+  const pickerItems = [
+    {
+      label: 'Pai',
+      value: 'pai',
+    },
+    {
+      label: 'Mãe',
+      value: 'mãe',
+    },
+    {
+      label: 'Avó',
+      value: 'avó',
+    },
+    {
+      label: 'Avô',
+      value: 'avô',
+    },
+    {
+      label: 'Tio',
+      value: 'tio',
+    },
+    {
+      label: 'Tia',
+      value: 'tia',
+    },
+    {
+      label: 'Irmão',
+      value: 'irmão',
+    },
+    {
+      label: 'Irmã',
+      value: 'irmã',
+    },
+    {
+      label: 'Primo',
+      value: 'primo',
+    },
+    {
+      label: 'Prima',
+      value: 'prima',
+    },
+    {
+      label: 'Amigo',
+      value: 'amigo',
+    },
+    {
+      label: 'Amiga',
+      value: 'amiga',
+    },
+    {
+      label: 'Namorada',
+      value: 'namorada',
+    },
+  ];
+
   const formRef = useRef<FormHandles>(null);
 
   const [loading, setLoading] = useState(false);
@@ -48,6 +104,20 @@ const NewContactDate: React.FC = () => {
     <Container>
       <FormContainer>
         <Form ref={formRef} onSubmit={handleSubmit}>
+          <Input
+            name="friend_name"
+            icon="account"
+            placeholder="Nome..."
+            borderColor="#ddd"
+          />
+
+          <PickerInput
+            icon="account-heart-outline"
+            placeholder="Relacionamento"
+            borderColor="#ddd"
+            name="relationship"
+            items={pickerItems}
+          />
           <DatePickerInput
             name="date"
             borderColor="#ddd"

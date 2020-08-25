@@ -6,7 +6,7 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.View`
-  height: 80px;
+  height: 100px;
   background: #65c4b0;
   flex-direction: row;
   align-items: center;
@@ -19,8 +19,8 @@ export const PageTitle = styled.Text`
   margin-left: 5px;
 `;
 
-export const FormContainer = styled.View`
+export const FormContainer = styled.ScrollView.attrs({})`
   flex: 1;
   padding: 20px;
-  justify-content: center;
+  margin-top: 20px;
 `;

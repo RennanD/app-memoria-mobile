@@ -125,7 +125,7 @@ const NewContactModal: React.FC<NewContactModalProps> = ({
 
             <PickerInput
               icon="account-heart-outline"
-              placeholder="Horário do lembrete"
+              placeholder="Relacionamento"
               borderColor="#ddd"
               name="relationship"
               items={pickerItems}
