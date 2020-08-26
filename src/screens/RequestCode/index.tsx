@@ -63,7 +63,7 @@ const RequestCode: React.FC = () => {
         />
       </ContainerInput>
       <Button loading={loading} onPress={handleSubmit}>
-        Solicitar código
+        Vamos começar
       </Button>
     </Container>
   );
