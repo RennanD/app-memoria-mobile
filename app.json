@@ -34,7 +34,19 @@
     ],
     "android": {
       "package": "com.resolute.app_memoria",
-      "versionCode": 102
+      "versionCode": 102,
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [{
+            "scheme": "app-memoria://"
+          }],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "ios": {
       "supportsTablet": true

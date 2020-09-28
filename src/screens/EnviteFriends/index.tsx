@@ -20,6 +20,7 @@ import {
 interface PhoneContact {
   firstName: string | undefined;
   phoneNumber: string | undefined;
+  originalPhone: string | undefined;
 }
 
 const EnviteFriends: React.FC = () => {
@@ -27,7 +28,7 @@ const EnviteFriends: React.FC = () => {
 
   const handleInviteContact = useCallback(phoneNumber => {
     // eslint-disable-next-line prettier/prettier
-    const message = 'Olá, gostaria de fazer parte dos seus contatos no Memória e adicionar você nos meus contatos. \n Clique para abrir o convite: https://drive.google.com/drive/folders/1700p2GAdCWUo6mWVUYcNYYUkxyiHcWLZ?usp=sharing';
+    const message = 'Olá, gostaria de fazer parte dos seus contatos no Memória e adicionar você nos meus contatos. \n Clique para abrir o convite:  http://10.0.0.103:3000/accept-envites';
 
     Linking.openURL(`whatsapp://send?phone=${phoneNumber}&text=${message}`);
   }, []);
@@ -58,11 +59,16 @@ const EnviteFriends: React.FC = () => {
                 ?.replace(' ', '')
                 .replace(' ', '')
                 .replace('+55', '')
-                .replace('-', '');
+                .replace('-', '')
+                .replace(' -', '');
 
               phoneContact = {
                 firstName: `${contactPhone.firstName} ${contactPhone.lastName}`,
-                phoneNumber: `+55${parsedPhone}`,
+                phoneNumber:
+                  parsedPhone?.length === 9
+                    ? `+55${parsedPhone}`
+                    : `+559${parsedPhone}`,
+                originalPhone: phoneNumber,
               };
             }
             return phoneContact;
@@ -93,7 +99,7 @@ const EnviteFriends: React.FC = () => {
       <Content>
         {phoneContacts.map(phoneContact => (
           <ContactCard
-            onPress={() => handleInviteContact(phoneContact.phoneNumber)}
+            onPress={() => handleInviteContact(phoneContact.originalPhone)}
           >
             <ContactAvatar
               source={{
