@@ -99,7 +99,7 @@ const EnviteFriends: React.FC = () => {
       return;
     }
 
-    const url = new URL(prefix);
+    const url = 'http://192.168.1.156:3000/teste';
 
     // eslint-disable-next-line prettier/prettier
     // const message = 'Olá, estou o app Mémoria, venha aproveitar você também essa novidade, clique aqui para fazer o download \n https://drive.google.com/drive/folders/1700p2GAdCWUo6mWVUYcNYYUkxyiHcWLZ?usp=sharing';

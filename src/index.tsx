@@ -13,7 +13,10 @@ const prefix = Linking.makeUrl('/');
 
 const Index: React.FC = () => {
   const linking = {
-    prefixes: [prefix],
+    prefixes: [
+      'http://192.168.1.156:3000/teste',
+      'https://expo.io/--/to-exp/exp%3A%2F%2Fxx-i8s.anonymous.mobile.exp.direct%3A80',
+    ],
     config: {
       screens: {
         AcceptEnvites: {
