@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar, Text } from 'react-native';
+import * as Linking from 'expo-linking';
 
 import { NavigationContainer } from '@react-navigation/native';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import Routes from './routes/index.routes';
 
 import { AppProvider } from './hooks';
 
+const prefix = Linking.makeUrl('/');
+
 const Index: React.FC = () => {
   const linking = {
-    prefixes: [
-      'https://app-memoria.netlify.app/AcceptEnvites',
-      'app-memoria://',
-    ],
+    prefixes: [prefix],
     config: {
       screens: {
         AcceptEnvites: {
@@ -21,6 +22,14 @@ const Index: React.FC = () => {
       },
     },
   };
+
+  useEffect(() => {
+    async function setMyUrl() {
+      await AsyncStorage.setItem('@AppMemoria:link', prefix);
+    }
+
+    setMyUrl();
+  }, []);
 
   return (
     <NavigationContainer

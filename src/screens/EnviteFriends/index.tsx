@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Linking } from 'react-native';
+import { Alert, Linking } from 'react-native';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import * as Contacts from 'expo-contacts';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   Container,
   Header,
@@ -16,28 +17,94 @@ import {
   ContactCard,
   ContactName,
 } from './styles';
+import api from '../../services/api';
 
 interface PhoneContact {
   firstName: string | undefined;
-  phoneNumber: string | undefined;
-  originalPhone: string | undefined;
+  phoneNumber: string;
+  originalPhone: string;
 }
 
 const EnviteFriends: React.FC = () => {
   const [phoneContacts, setPhoneContacts] = useState<PhoneContact[]>([]);
 
-  const handleInviteContact = useCallback(phoneNumber => {
+  const handleInviteContact = useCallback(
+    async (phoneNumber: string, whatsappNumber: string) => {
+      let formattedWhatsapp = '';
+
+      if (whatsappNumber.length === 8) {
+        formattedWhatsapp = `+55 86 ${whatsappNumber.substr(
+          0,
+          4,
+        )} ${whatsappNumber.substr(4, 7)}`;
+      }
+
+      if (whatsappNumber.length === 9) {
+        formattedWhatsapp = `+55 86 ${whatsappNumber.substr(
+          0,
+          5,
+        )} ${whatsappNumber.substr(6, 7)}`;
+      }
+
+      if (whatsappNumber.length > 9) {
+        formattedWhatsapp = whatsappNumber;
+      }
+
+      // console.log(formattedWhatsapp);
+
+      console.log(phoneNumber);
+      try {
+        const response = await api.post('/invites', {
+          guestNumber: phoneNumber,
+        });
+
+        const { _id } = response.data;
+
+        // eslint-disable-next-line prettier/prettier
+        const message = `Olá, gostaria de fazer parte dos seus contatos no Memória e adicionar você nos meus contatos. \n Clique para abrir o convite:  http://10.0.0.103:3000/accept-invites/${_id}`;
+
+        Alert.alert('Vamos direcionar vc para o whatsapp');
+
+        Linking.openURL(
+          `whatsapp://send?phone=${formattedWhatsapp}&text=${message}`,
+        );
+      } catch ({ response }) {
+        // eslint-disable-next-line prettier/prettier
+        const message = 'Olá, estou o app Mémoria, venha aproveitar você também essa novidade, clique aqui para fazer o download \n https://drive.google.com/drive/folders/1700p2GAdCWUo6mWVUYcNYYUkxyiHcWLZ?usp=sharing';
+
+        Alert.alert(
+          'Ops!',
+          `${response.data.message}, mas você pode compartilhar o memória com este contato.`,
+          [
+            {
+              text: 'Compartilhar Memória',
+              onPress: () => {
+                Linking.openURL(
+                  `whatsapp://send?phone=${formattedWhatsapp}&text=${message}`,
+                );
+              },
+            },
+          ],
+          { cancelable: true },
+        );
+      }
+    },
+    [],
+  );
+
+  const handleShareApp = useCallback(async () => {
+    const prefix = await AsyncStorage.getItem('@AppMemoria:link');
+
+    if (!prefix) {
+      return;
+    }
+
+    const url = new URL(prefix);
+
     // eslint-disable-next-line prettier/prettier
-    const message = 'Olá, gostaria de fazer parte dos seus contatos no Memória e adicionar você nos meus contatos. \n Clique para abrir o convite:  http://10.0.0.103:3000/accept-envites';
+    // const message = 'Olá, estou o app Mémoria, venha aproveitar você também essa novidade, clique aqui para fazer o download \n https://drive.google.com/drive/folders/1700p2GAdCWUo6mWVUYcNYYUkxyiHcWLZ?usp=sharing';
 
-    Linking.openURL(`whatsapp://send?phone=${phoneNumber}&text=${message}`);
-  }, []);
-
-  const handleShareApp = useCallback(() => {
-    // eslint-disable-next-line prettier/prettier
-    const message = 'Olá, estou o app Mémoria, venha aproveitar você também essa novidade, clique aqui para fazer o download \n https://drive.google.com/drive/folders/1700p2GAdCWUo6mWVUYcNYYUkxyiHcWLZ?usp=sharing';
-
-    Linking.openURL(`whatsapp://send?text=${message}`);
+    Linking.openURL(`whatsapp://send?text=${url}AcceptEnvites`);
   }, []);
 
   useEffect(() => {
@@ -63,12 +130,14 @@ const EnviteFriends: React.FC = () => {
                 .replace(' -', '');
 
               phoneContact = {
-                firstName: `${contactPhone.firstName} ${contactPhone.lastName}`,
+                firstName: `${contactPhone.firstName} ${
+                  contactPhone.lastName ? contactPhone.lastName : ''
+                }`,
                 phoneNumber:
                   parsedPhone?.length === 9
-                    ? `+55${parsedPhone}`
-                    : `+559${parsedPhone}`,
-                originalPhone: phoneNumber,
+                    ? `+5586${parsedPhone}`
+                    : `+55986${parsedPhone}`,
+                originalPhone: phoneNumber || '',
               };
             }
             return phoneContact;
@@ -99,7 +168,12 @@ const EnviteFriends: React.FC = () => {
       <Content>
         {phoneContacts.map(phoneContact => (
           <ContactCard
-            onPress={() => handleInviteContact(phoneContact.originalPhone)}
+            onPress={() => {
+              handleInviteContact(
+                phoneContact.phoneNumber,
+                phoneContact.originalPhone,
+              );
+            }}
           >
             <ContactAvatar
               source={{
