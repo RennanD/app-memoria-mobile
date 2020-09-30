@@ -99,12 +99,12 @@ const EnviteFriends: React.FC = () => {
       return;
     }
 
-    const url = 'http://192.168.1.156:3000/teste';
+    const url = 'https://appmemoria.herokuapp.com/accept';
 
     // eslint-disable-next-line prettier/prettier
     // const message = 'Olá, estou o app Mémoria, venha aproveitar você também essa novidade, clique aqui para fazer o download \n https://drive.google.com/drive/folders/1700p2GAdCWUo6mWVUYcNYYUkxyiHcWLZ?usp=sharing';
 
-    Linking.openURL(`whatsapp://send?text=${url}AcceptEnvites`);
+    Linking.openURL(`whatsapp://send?text=${url}`);
   }, []);
 
   useEffect(() => {

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { FlatList } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { Feather } from '@expo/vector-icons';
 
 import {
   Container,
@@ -11,12 +10,9 @@ import {
   ContactCard,
   ContactAvatar,
   ContactName,
-  FloatButton,
 } from './styles';
-import boxShadownEffect from '../../styles/boxShadow';
-
 import ContactsPlaceholder from './ContactsPlaceholder';
-import NewContactModal from './NewContactModal';
+
 import EmptyView from '../../components/EmptyView';
 
 import { Contacts as ContactsIcon } from '../../assets';
@@ -33,7 +29,6 @@ interface Contact {
 const Contacts: React.FC = () => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoagind] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
 
   const { navigate } = useNavigation();
 
@@ -43,10 +38,6 @@ const Contacts: React.FC = () => {
     },
     [navigate],
   );
-
-  const handleToggleModal = useCallback(() => {
-    setIsVisible(state => !state);
-  }, []);
 
   useEffect(() => {
     async function loadContacts() {
@@ -71,14 +62,6 @@ const Contacts: React.FC = () => {
 
           <EmptyView text="Ainda não há contatos adicinados" icon="user" />
         </Container>
-        <FloatButton onPress={handleToggleModal} style={boxShadownEffect}>
-          <Feather name="plus" color="#fff" size={24} />
-        </FloatButton>
-
-        <NewContactModal
-          isVisible={isVisible}
-          toggleModal={handleToggleModal}
-        />
       </>
     );
   }
@@ -107,11 +90,6 @@ const Contacts: React.FC = () => {
           />
         )}
       </Container>
-      <FloatButton onPress={handleToggleModal} style={boxShadownEffect}>
-        <Feather name="plus" color="#fff" size={24} />
-      </FloatButton>
-
-      <NewContactModal isVisible={isVisible} toggleModal={handleToggleModal} />
     </>
   );
 };
