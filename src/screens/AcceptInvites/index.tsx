@@ -38,7 +38,7 @@ const AcceptInvites: React.FC = () => {
 
   useEffect(() => {
     async function loadPreferences() {
-      const response = await api.get(`/contacts/${params.contact_id}`);
+      const response = await api.get(`/users/${params.contact_id}`);
 
       setContact(response.data);
     }
@@ -67,7 +67,6 @@ const AcceptInvites: React.FC = () => {
             <EnviteTitle>
               {`${contact.name} deseja fazer parte da sua lista de contato, deseja aceitar?`}
             </EnviteTitle>
-            <EnviteTitle>{JSON.stringify(params)}</EnviteTitle>
           </ContactInfoContainer>
         </ContactDeatilsContainer>
 

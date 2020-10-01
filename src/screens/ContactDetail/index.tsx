@@ -29,7 +29,6 @@ interface Contact {
   birthday: Date;
   formattedBirthday: string;
   avatar: string;
-  relationship: string;
 }
 
 interface PreferenceProps {
@@ -114,9 +113,6 @@ const ContactDetail: React.FC = () => {
           />
           <ContactInfoContainer>
             <ContactName>{contact.name}</ContactName>
-            <ContactDescription>
-              {`Relacionamento:  ${contact.relationship}`}
-            </ContactDescription>
             <ContactDescription>
               {`Data de anviversário:  ${contact.formattedBirthday}`}
             </ContactDescription>
