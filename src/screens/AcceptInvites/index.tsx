@@ -82,8 +82,6 @@ const AcceptInvites: React.FC = () => {
             {!accepted ? (
               <EnviteTitle>
                 {`${contact.name} deseja fazer parte da sua lista de contato, deseja aceitar?`}
-
-                {JSON.stringify(params)}
               </EnviteTitle>
             ) : (
               <EnviteTitle>
@@ -96,7 +94,9 @@ const AcceptInvites: React.FC = () => {
         {!accepted ? (
           <ButtonsContainer>
             <CancelButton>
-              <ButtonsText>Recusar</ButtonsText>
+              <ButtonsText onPress={() => navigate('Menu')}>
+                Recusar
+              </ButtonsText>
             </CancelButton>
             <ConfirmButton onPress={handleAcceptInvite}>
               <ButtonsText>Aceitar</ButtonsText>

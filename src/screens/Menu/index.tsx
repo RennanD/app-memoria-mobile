@@ -3,7 +3,7 @@
 import React, { useCallback, useMemo, useEffect } from 'react';
 import { FlatList } from 'react-native';
 import socketio from 'socket.io-client';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { useAuth, useNotification } from '../../hooks';
 
@@ -29,10 +29,19 @@ interface Notification {
   notification_message: string;
 }
 
+interface RouteProps {
+  name: string;
+  key: string;
+  params?: {
+    contact_id?: string;
+  };
+}
+
 const Menu: React.FC = () => {
   const { navigate } = useNavigation();
   const { account } = useAuth();
   const { emitiNotification, numberOfNotifications } = useNotification();
+  const { params } = useRoute<RouteProps>();
 
   const socket = useMemo(() => socketio('http://192.168.25.9:3333', {
     query: {
@@ -48,6 +57,12 @@ const Menu: React.FC = () => {
       });
     });
   }, [emitiNotification, socket]);
+
+  useEffect(() => {
+    if (params) {
+      navigate('AcceptInvites', { contact_id: params.contact_id });
+    }
+  }, [navigate, params, params?.contact_id]);
 
   const handleNavigate = useCallback(
     route => {
