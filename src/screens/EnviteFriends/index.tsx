@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, Linking } from 'react-native';
+import { Linking } from 'react-native';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import * as Contacts from 'expo-contacts';
 
-import AsyncStorage from '@react-native-community/async-storage';
 import {
   Container,
   Header,
@@ -17,7 +16,8 @@ import {
   ContactCard,
   ContactName,
 } from './styles';
-import api from '../../services/api';
+
+import { useAuth } from '../../hooks';
 
 interface PhoneContact {
   firstName: string | undefined;
@@ -27,6 +27,8 @@ interface PhoneContact {
 
 const EnviteFriends: React.FC = () => {
   const [phoneContacts, setPhoneContacts] = useState<PhoneContact[]>([]);
+
+  const { account } = useAuth();
 
   const handleInviteContact = useCallback(
     async (phoneNumber: string, whatsappNumber: string) => {
@@ -50,61 +52,24 @@ const EnviteFriends: React.FC = () => {
         formattedWhatsapp = whatsappNumber;
       }
 
+      const url = `https://appmemoria.herokuapp.com/accept/${account.user.id}`;
+
+      const message = `Olá, gostaria de fazer parte dos seus contatos no Memória e adicionar você nos meus contatos. \n Clique para abrir o convite: ${url}`;
+
       // console.log(formattedWhatsapp);
 
-      console.log(phoneNumber);
-      try {
-        const response = await api.post('/invites', {
-          guestNumber: phoneNumber,
-        });
-
-        const { _id } = response.data;
-
-        // eslint-disable-next-line prettier/prettier
-        const message = `Olá, gostaria de fazer parte dos seus contatos no Memória e adicionar você nos meus contatos. \n Clique para abrir o convite:  http://10.0.0.103:3000/accept-invites/${_id}`;
-
-        Alert.alert('Vamos direcionar vc para o whatsapp');
-
-        Linking.openURL(
-          `whatsapp://send?phone=${formattedWhatsapp}&text=${message}`,
-        );
-      } catch ({ response }) {
-        // eslint-disable-next-line prettier/prettier
-        const message = 'Olá, estou o app Mémoria, venha aproveitar você também essa novidade, clique aqui para fazer o download \n https://drive.google.com/drive/folders/1700p2GAdCWUo6mWVUYcNYYUkxyiHcWLZ?usp=sharing';
-
-        Alert.alert(
-          'Ops!',
-          `${response.data.message}, mas você pode compartilhar o memória com este contato.`,
-          [
-            {
-              text: 'Compartilhar Memória',
-              onPress: () => {
-                Linking.openURL(
-                  `whatsapp://send?phone=${formattedWhatsapp}&text=${message}`,
-                );
-              },
-            },
-          ],
-          { cancelable: true },
-        );
-      }
+      Linking.openURL(
+        `whatsapp://send?phone=${formattedWhatsapp}&text=${message}`,
+      );
     },
-    [],
+    [account],
   );
 
   const handleShareApp = useCallback(async () => {
-    const prefix = await AsyncStorage.getItem('@AppMemoria:link');
-
-    if (!prefix) {
-      return;
-    }
-
-    const url = 'https://appmemoria.herokuapp.com/accept';
-
     // eslint-disable-next-line prettier/prettier
-    // const message = 'Olá, estou o app Mémoria, venha aproveitar você também essa novidade, clique aqui para fazer o download \n https://drive.google.com/drive/folders/1700p2GAdCWUo6mWVUYcNYYUkxyiHcWLZ?usp=sharing';
+    const message = 'Olá, estou o app Mémoria, venha aproveitar você também essa novidade, clique aqui para fazer o download \n https://drive.google.com/drive/folders/1700p2GAdCWUo6mWVUYcNYYUkxyiHcWLZ?usp=sharing';
 
-    Linking.openURL(`whatsapp://send?text=${url}`);
+    Linking.openURL(`whatsapp://send?text=${message}`);
   }, []);
 
   useEffect(() => {

@@ -14,7 +14,6 @@ import ContactsPreferences from '../screens/ContactsPreferences';
 import Profile from '../screens/Profile';
 import GenericReminderDetail from '../screens/GenericReminderDetail';
 import MyMessages from '../screens/MyMessages';
-import AcceptInvites from '../screens/AcceptInvites';
 
 const AppRoutes: React.FC = () => {
   const { Navigator, Screen } = createStackNavigator();
@@ -33,7 +32,6 @@ const AppRoutes: React.FC = () => {
       <Screen name="ContactDetail" component={ContactDetail} />
       <Screen name="Profile" component={Profile} />
       <Screen name="ContactsPreferences" component={ContactsPreferences} />
-      <Screen name="AcceptInvites" component={AcceptInvites} />
     </Navigator>
   );
 };
