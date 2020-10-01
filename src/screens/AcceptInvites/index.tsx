@@ -82,6 +82,8 @@ const AcceptInvites: React.FC = () => {
             {!accepted ? (
               <EnviteTitle>
                 {`${contact.name} deseja fazer parte da sua lista de contato, deseja aceitar?`}
+
+                {JSON.stringify(params)}
               </EnviteTitle>
             ) : (
               <EnviteTitle>

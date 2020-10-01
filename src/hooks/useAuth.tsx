@@ -84,7 +84,8 @@ export const AuthProvider: React.FC = ({ children }) => {
       api.defaults.headers.authorization = `Bearer ${token}`;
 
       setData({ token, account });
-    } catch (err) {
+    } catch ({ response }) {
+      console.log(response);
       Alert.alert('Erro', 'Dados de usuário inválidos!');
     }
   }, []);
