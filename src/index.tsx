@@ -16,7 +16,7 @@ const Index: React.FC = () => {
     config: {
       screens: {
         AcceptInvites: {
-          path: 'AcceptInvites/:contact_id',
+          path: 'AcceptInvites',
         },
       },
     },

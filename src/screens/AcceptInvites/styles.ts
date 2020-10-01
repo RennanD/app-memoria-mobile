@@ -58,6 +58,7 @@ export const ButtonsContainer = styled.View`
   justify-content: space-between;
   margin-top: 20px;
   flex-direction: row;
+  padding: 0 20px;
 `;
 
 export const ButtonsText = styled.Text`

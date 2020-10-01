@@ -51,7 +51,7 @@ const AcceptInvites: React.FC = () => {
       <Container>
         <Header>
           <Contacts width="60" height="60" />
-          <PageTitle>Detalhe do contato</PageTitle>
+          <PageTitle>Detalhe do convite</PageTitle>
         </Header>
 
         <ContactDeatilsContainer>
@@ -67,6 +67,7 @@ const AcceptInvites: React.FC = () => {
             <EnviteTitle>
               {`${contact.name} deseja fazer parte da sua lista de contato, deseja aceitar?`}
             </EnviteTitle>
+            <EnviteTitle>{JSON.stringify(params)}</EnviteTitle>
           </ContactInfoContainer>
         </ContactDeatilsContainer>
 
