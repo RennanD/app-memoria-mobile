@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   Container,
   Header,
@@ -35,6 +35,21 @@ interface Contact {
 const AcceptInvites: React.FC = () => {
   const { params } = useRoute<RouteProps>();
   const [contact, setContact] = useState<Contact>({} as Contact);
+  const [accepted, setAccepted] = useState(false);
+
+  const { navigate } = useNavigation();
+
+  const handleAcceptInvite = useCallback(async () => {
+    try {
+      await api.post('/invites', {
+        owner_id: params.contact_id,
+      });
+
+      setAccepted(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [params.contact_id]);
 
   useEffect(() => {
     async function loadPreferences() {
@@ -64,20 +79,34 @@ const AcceptInvites: React.FC = () => {
           />
           <ContactInfoContainer>
             <ContactName>{contact.name}</ContactName>
-            <EnviteTitle>
-              {`${contact.name} deseja fazer parte da sua lista de contato, deseja aceitar?`}
-            </EnviteTitle>
+            {!accepted ? (
+              <EnviteTitle>
+                {`${contact.name} deseja fazer parte da sua lista de contato, deseja aceitar?`}
+              </EnviteTitle>
+            ) : (
+              <EnviteTitle>
+                {`${contact.name} agora faz parte dos seus contatos!`}
+              </EnviteTitle>
+            )}
           </ContactInfoContainer>
         </ContactDeatilsContainer>
 
-        <ButtonsContainer>
-          <CancelButton>
-            <ButtonsText>Recusar</ButtonsText>
-          </CancelButton>
-          <ConfirmButton>
-            <ButtonsText>Aceitar</ButtonsText>
-          </ConfirmButton>
-        </ButtonsContainer>
+        {!accepted ? (
+          <ButtonsContainer>
+            <CancelButton>
+              <ButtonsText>Recusar</ButtonsText>
+            </CancelButton>
+            <ConfirmButton onPress={handleAcceptInvite}>
+              <ButtonsText>Aceitar</ButtonsText>
+            </ConfirmButton>
+          </ButtonsContainer>
+        ) : (
+          <ButtonsContainer>
+            <ConfirmButton onPress={() => navigate('Contacts')}>
+              <ButtonsText>Voltar</ButtonsText>
+            </ConfirmButton>
+          </ButtonsContainer>
+        )}
       </Container>
     </>
   );

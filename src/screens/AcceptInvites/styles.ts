@@ -73,6 +73,8 @@ export const ConfirmButton = styled.TouchableOpacity`
   width: 48%;
   background: #65c4b0;
   border: 0;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const CancelButton = styled.TouchableOpacity`
@@ -81,4 +83,6 @@ export const CancelButton = styled.TouchableOpacity`
   width: 48%;
   background: #c53030;
   border: 0;
+  align-items: center;
+  justify-content: center;
 `;
