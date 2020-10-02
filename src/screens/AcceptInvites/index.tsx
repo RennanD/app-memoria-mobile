@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { Alert } from 'react-native';
 import {
   Container,
   Header,
@@ -37,17 +38,17 @@ const AcceptInvites: React.FC = () => {
   const [contact, setContact] = useState<Contact>({} as Contact);
   const [accepted, setAccepted] = useState(false);
 
-  const { navigate } = useNavigation();
+  const { navigate, goBack } = useNavigation();
 
   const handleAcceptInvite = useCallback(async () => {
     try {
-      await api.post('/invites', {
+      await api.post('/invites/accept', {
         owner_id: params.contact_id,
       });
 
       setAccepted(true);
-    } catch (error) {
-      console.log(error);
+    } catch ({ response }) {
+      Alert.alert('error', response.data.message);
     }
   }, [params.contact_id]);
 
@@ -94,9 +95,7 @@ const AcceptInvites: React.FC = () => {
         {!accepted ? (
           <ButtonsContainer>
             <CancelButton>
-              <ButtonsText onPress={() => navigate('Menu')}>
-                Recusar
-              </ButtonsText>
+              <ButtonsText onPress={goBack}>Recusar</ButtonsText>
             </CancelButton>
             <ConfirmButton onPress={handleAcceptInvite}>
               <ButtonsText>Aceitar</ButtonsText>

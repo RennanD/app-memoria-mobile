@@ -43,7 +43,7 @@ const Menu: React.FC = () => {
   const { emitiNotification, numberOfNotifications } = useNotification();
   const { params } = useRoute<RouteProps>();
 
-  const socket = useMemo(() => socketio('http://192.168.25.9:3333', {
+  const socket = useMemo(() => socketio('https://app-memoria.tk', {
     query: {
       user_id: account.user.id,
     },

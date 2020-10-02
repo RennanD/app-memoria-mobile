@@ -76,8 +76,9 @@ const Profile: React.FC = () => {
         type: 'image/jpeg',
       });
 
+      console.log(dataFile);
       const response = await api.patch('/users', dataFile);
-
+      console.log(response.data);
       updateAvatar(response.data);
     } catch (E) {
       console.log(E);

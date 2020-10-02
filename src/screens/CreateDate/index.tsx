@@ -7,6 +7,7 @@ import { Header, PageTitle } from './styles';
 
 import NewContactDate from './NewContactDate';
 import WithContactDate from './WithContactDate';
+import PersonalDate from './PersonalDate';
 
 interface Routes {
   key: string;
@@ -20,11 +21,13 @@ const CreateDate: React.FC = () => {
   const [routes] = useState<Routes[]>([
     { key: 'first', title: 'Sem contato' },
     { key: 'second', title: 'Contato existente' },
+    { key: 'tirth', title: 'Data pessoal' },
   ]);
 
   const renderScene = SceneMap({
     first: NewContactDate,
     second: WithContactDate,
+    tirth: PersonalDate,
   });
 
   return (

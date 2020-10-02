@@ -52,7 +52,7 @@ const EnviteFriends: React.FC = () => {
         formattedWhatsapp = whatsappNumber;
       }
 
-      const url = `http://app-memoria.netlify.com/accept/${account.user.id}`;
+      const url = `https://appmemoria.herokuapp.com/accept/${account.user.id}`;
 
       const message = `Olá, gostaria de fazer parte dos seus contatos no Memória e adicionar você nos meus contatos. \n Clique para abrir o convite: ${url}`;
 

@@ -91,12 +91,12 @@ export const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signOut = useCallback(async () => {
-    const { account } = data;
-
-    await api.delete(`/sessions/${account.user.id}`);
-
-    await AsyncStorage.removeItem('@memoria:token');
-    await AsyncStorage.removeItem('@memoria:account');
+    try {
+      await AsyncStorage.removeItem('@memoria:token');
+      await AsyncStorage.removeItem('@memoria:account');
+    } catch (error) {
+      Alert.alert('error', error);
+    }
 
     // cancelVerify();
 
@@ -105,12 +105,16 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   const updateAvatar = useCallback(
     async (user: User) => {
-      const account = {
-        user,
-      };
+      try {
+        const account = {
+          user,
+        };
 
-      await AsyncStorage.setItem('@memoria:account', JSON.stringify(account));
-      setData({ account, token: data.token });
+        await AsyncStorage.setItem('@memoria:account', JSON.stringify(account));
+        setData({ account, token: data.token });
+      } catch (error) {
+        console.log(error);
+      }
     },
     [data.token],
   );
