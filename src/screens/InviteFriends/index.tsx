@@ -10,15 +10,30 @@ import {
   EnviteButton,
   EnviteButtonText,
   Content,
+  ContactAvatar,
 } from './styles';
 
+import { useAuth } from '../../hooks';
+import Button from '../../components/Button';
+
 const InviteFriends: React.FC = () => {
+  const { account } = useAuth();
+
   const handleShareApp = useCallback(() => {
     // eslint-disable-next-line prettier/prettier
     const message = 'Olá, estou o app Mémoria, venha aproveitar você também essa novidade, clique aqui para fazer o download \n https://drive.google.com/drive/folders/1700p2GAdCWUo6mWVUYcNYYUkxyiHcWLZ?usp=sharing';
 
     Linking.openURL(`whatsapp://send?text=${message}`);
   }, []);
+
+  const handleShareeInive = useCallback(() => {
+    // eslint-disable-next-line prettier/prettier
+    const url = `https://appmemoria.herokuapp.com/accept/${account.user.id}`;
+
+    const message = `Olá, gostaria de fazer parte dos seus contatos no Memória e adicionar você nos meus contatos. \n Clique para abrir o convite: ${url}`;
+
+    Linking.openURL(`whatsapp://send?text=${message}`);
+  }, [account.user.id]);
 
   return (
     <Container>
@@ -32,10 +47,20 @@ const InviteFriends: React.FC = () => {
       </Header>
 
       <EnviteButton onPress={handleShareApp}>
-        <EnviteButtonText>Compartilhar via whatsapp</EnviteButtonText>
+        <EnviteButtonText>Compartilhar o Memória </EnviteButtonText>
       </EnviteButton>
 
-      <Content />
+      <Content>
+        <ContactAvatar
+          source={{
+            uri: account.user.avatar,
+          }}
+        />
+
+        <Button loading={false} onPress={handleShareeInive}>
+          Enviar um convite via Whatsapp
+        </Button>
+      </Content>
     </Container>
   );
 };
