@@ -23,7 +23,7 @@ const InviteFriends: React.FC = () => {
 
   const handleShareApp = useCallback(() => {
     // eslint-disable-next-line prettier/prettier
-    const message = 'Olá, estou o app Mémoria, venha aproveitar você também essa novidade, clique aqui para fazer o download \n https://drive.google.com/drive/folders/1700p2GAdCWUo6mWVUYcNYYUkxyiHcWLZ?usp=sharing';
+    const message = 'Olá, estou o app Mémoria, venha aproveitar você também essa novidade, clique no link abaixo para fazer o download \n https://drive.google.com/drive/folders/1700p2GAdCWUo6mWVUYcNYYUkxyiHcWLZ?usp=sharing';
 
     Linking.openURL(`whatsapp://send?text=${message}`);
   }, []);
@@ -45,7 +45,7 @@ const InviteFriends: React.FC = () => {
           color="#65c4b0"
           size={100}
         />
-        <PageTitle>Condive pessoas</PageTitle>
+        <PageTitle>Envite o link para seus amigos baixarem o Memória</PageTitle>
       </Header>
 
       <EnviteButton onPress={handleShareApp}>
