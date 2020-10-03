@@ -32,6 +32,7 @@ export const EnviteButtonText = styled.Text`
 export const Content = styled.ScrollView.attrs({})`
   flex: 1;
   margin-top: 10px;
+  padding: 20px;
 `;
 
 export const ContactCard = styled.TouchableOpacity`
@@ -42,17 +43,22 @@ export const ContactCard = styled.TouchableOpacity`
   align-items: center;
 `;
 
+export const ContatcContainer = styled.View`
+  flex: 1;
+`;
+
 export const ContactAvatar = styled.Image`
-  height: 50px;
-  width: 50px;
+  height: 120px;
+  width: 120px;
   background: #eee;
   border-radius: 25px;
+  align-self: center;
 `;
 
 export const ContactName = styled.Text`
   color: #333;
   font-size: 18px;
   font-weight: bold;
-  margin-left: 10px;
-  flex: 1;
+  text-align: center;
+  margin-top: 10px;
 `;

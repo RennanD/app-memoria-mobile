@@ -11,6 +11,8 @@ import {
   EnviteButtonText,
   Content,
   ContactAvatar,
+  ContatcContainer,
+  ContactName,
 } from './styles';
 
 import { useAuth } from '../../hooks';
@@ -51,11 +53,16 @@ const InviteFriends: React.FC = () => {
       </EnviteButton>
 
       <Content>
-        <ContactAvatar
-          source={{
-            uri: account.user.avatar,
-          }}
-        />
+        <ContatcContainer>
+          <ContactAvatar
+            source={{
+              uri: account.user.avatar,
+            }}
+          />
+          <ContactName>
+            Gerar um link compartilhavel para o meu perfil do Memória
+          </ContactName>
+        </ContatcContainer>
 
         <Button loading={false} onPress={handleShareeInive}>
           Enviar um convite via Whatsapp

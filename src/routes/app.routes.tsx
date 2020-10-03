@@ -5,7 +5,8 @@ import Menu from '../screens/Menu';
 import DateRoutes from './date.routes';
 import Notifications from '../screens/Notifications';
 
-import EnviteFriends from '../screens/EnviteFriends';
+// import EnviteFriends from '../screens/EnviteFriends';
+import InviteFriends from '../screens/InviteFriends';
 import ReminderDetail from '../screens/ReminderDetail';
 import Contacts from '../screens/Contacts';
 import ContactDetail from '../screens/ContactDetail';
@@ -25,7 +26,7 @@ const AppRoutes: React.FC = () => {
       <Screen name="PreferencesRoutes" component={Preferences} />
       <Screen name="DateRoutes" component={DateRoutes} />
       <Screen name="MessagesRoutes" component={MyMessages} />
-      <Screen name="EnviteFriends" component={EnviteFriends} />
+      <Screen name="EnviteFriends" component={InviteFriends} />
       <Screen name="Notifications" component={Notifications} />
       <Screen name="ReminderDetail" component={ReminderDetail} />
       <Screen name="GenericReminderDetail" component={GenericReminderDetail} />
