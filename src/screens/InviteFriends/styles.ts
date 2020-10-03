@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   background: #fff;
+  height: 100%;
 `;
 
 export const Header = styled.View`
@@ -29,10 +30,13 @@ export const EnviteButtonText = styled.Text`
   font-size: 16px;
 `;
 
-export const Content = styled.ScrollView.attrs({})`
+export const Content = styled.View`
   flex: 1;
   margin-top: 10px;
   padding: 20px;
+  height: 100%;
+  border: 1px solid #ddd;
+  justify-content: center;
 `;
 
 export const ContactCard = styled.TouchableOpacity`
@@ -48,17 +52,17 @@ export const ContatcContainer = styled.View`
 `;
 
 export const ContactAvatar = styled.Image`
-  height: 120px;
-  width: 120px;
+  height: 200px;
+  width: 200px;
   background: #eee;
-  border-radius: 25px;
+  border-radius: 100px;
   align-self: center;
 `;
 
 export const ContactName = styled.Text`
-  color: #333;
-  font-size: 18px;
+  color: #65c4b0;
+  font-size: 22px;
   font-weight: bold;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 30px;
 `;

@@ -42,6 +42,13 @@ const AcceptInvites: React.FC = () => {
 
   const handleAcceptInvite = useCallback(async () => {
     try {
+      const response = await api.get(`/contacts/${params.contact_id}`);
+
+      if (response.data.id) {
+        setAccepted(true);
+        return;
+      }
+
       await api.post('/invites/accept', {
         owner_id: params.contact_id,
       });
@@ -70,32 +77,34 @@ const AcceptInvites: React.FC = () => {
           <PageTitle>Detalhe do convite</PageTitle>
         </Header>
 
-        <ContactDeatilsContainer>
-          <ContactAvatar
-            source={{
-              uri: contact.avatar
-                ? contact.avatar
-                : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
-            }}
-          />
-          <ContactInfoContainer>
-            <ContactName>{contact.name}</ContactName>
-            {!accepted ? (
-              <EnviteTitle>
-                {`${contact.name} deseja fazer parte da sua lista de contato, deseja aceitar?`}
-              </EnviteTitle>
-            ) : (
-              <EnviteTitle>
-                {`${contact.name} agora faz parte dos seus contatos!`}
-              </EnviteTitle>
-            )}
-          </ContactInfoContainer>
-        </ContactDeatilsContainer>
+        {contact && (
+          <ContactDeatilsContainer>
+            <ContactAvatar
+              source={{
+                uri: contact.avatar
+                  ? contact.avatar
+                  : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
+              }}
+            />
+            <ContactInfoContainer>
+              <ContactName>{contact.name}</ContactName>
+              {!accepted ? (
+                <EnviteTitle>
+                  {`${contact.name} deseja fazer parte da sua lista de contato, deseja aceitar?`}
+                </EnviteTitle>
+              ) : (
+                <EnviteTitle>
+                  {`${contact.name} agora faz parte dos seus contatos!`}
+                </EnviteTitle>
+              )}
+            </ContactInfoContainer>
+          </ContactDeatilsContainer>
+        )}
 
         {!accepted ? (
           <ButtonsContainer>
-            <CancelButton>
-              <ButtonsText onPress={goBack}>Recusar</ButtonsText>
+            <CancelButton onPress={goBack}>
+              <ButtonsText>Recusar</ButtonsText>
             </CancelButton>
             <ConfirmButton onPress={handleAcceptInvite}>
               <ButtonsText>Aceitar</ButtonsText>

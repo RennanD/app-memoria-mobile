@@ -64,7 +64,11 @@ const InviteFriends: React.FC = () => {
           </ContactName>
         </ContatcContainer>
 
-        <Button loading={false} onPress={handleShareeInive}>
+        <Button
+          style={{ bottom: 20 }}
+          loading={false}
+          onPress={handleShareeInive}
+        >
           Enviar um convite via Whatsapp
         </Button>
       </Content>
