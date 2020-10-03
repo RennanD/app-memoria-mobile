@@ -20,12 +20,18 @@ export const ListDatesTitle = styled.Text`
   margin: 20px;
 `;
 
-export const EnventLabel = styled.TouchableOpacity`
+export const ReminderContainer = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
   padding: 15px;
   border-radius: 4px;
   background: #fff;
   border: 1px solid #eee;
   margin-bottom: 10px;
+`;
+
+export const EnventLabel = styled.View`
+  flex: 1;
 `;
 
 export const EventLabelText = styled.Text`

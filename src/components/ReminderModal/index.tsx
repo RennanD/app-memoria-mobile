@@ -45,7 +45,7 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
 
   const handleSubmit = useCallback(
     async (data: ReminderProps) => {
-      const userDateDay = dateReminder.getDay();
+      const userDateDay = new Date(dateReminder).getDay();
       const subDaysReminder = subDays(
         new Date(dateReminder),
         Number(data.sub_days_date),

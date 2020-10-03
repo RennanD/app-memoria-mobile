@@ -12,8 +12,9 @@ export const Header = styled.View`
 `;
 
 export const PageTitle = styled.Text`
-  font-size: 24px;
+  font-size: 22px;
   color: #65c4b0;
+  text-align: center;
 `;
 
 export const EnviteButton = styled.TouchableOpacity`

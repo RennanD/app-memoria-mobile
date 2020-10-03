@@ -10,6 +10,7 @@ import { Calendar } from 'react-native-calendars';
 
 import { useRoute } from '@react-navigation/native';
 
+import CheckBox from '@react-native-community/checkbox';
 import {
   Container,
   ListDatesTitle,
@@ -21,6 +22,7 @@ import {
   EmptyViewText,
   Description,
   FloatButton,
+  ReminderContainer,
 } from './styles';
 import boxShadowEffect from '../../styles/boxShadow';
 
@@ -40,6 +42,7 @@ interface Reminder {
   reminderDate: string;
   notification_message: string;
   formattedDate: string;
+  active: boolean;
 }
 
 interface RouteProps {
@@ -82,6 +85,26 @@ const GenericReminderDetail: React.FC = () => {
 
     loadDate();
   }, [params]);
+
+  const handleActiveReminder = useCallback(
+    async (reminder_id: string, activeState: boolean) => {
+      const newReminders = reminders.map(reminder => {
+        if (reminder._id === reminder_id) {
+          return {
+            ...reminder,
+            active: activeState,
+          };
+        }
+        return reminder;
+      });
+      setReminders(newReminders);
+
+      await api.patch(`/reminders/${reminder_id}`, {
+        active: activeState,
+      });
+    },
+    [reminders],
+  );
 
   useEffect(() => {
     async function loadReminders() {
@@ -136,12 +159,20 @@ const GenericReminderDetail: React.FC = () => {
         <ListDatesView>
           {reminders.length > 0 ? (
             reminders.map(reminder => (
-              <EnventLabel key={reminder._id} style={boxShadowEffect}>
-                <EventLabelText>{reminder.title}</EventLabelText>
-                <EventLabelDate>
-                  {`Data do lembrete: ${reminder.formattedDate} `}
-                </EventLabelDate>
-              </EnventLabel>
+              <ReminderContainer>
+                <EnventLabel key={reminder._id} style={boxShadowEffect}>
+                  <EventLabelText>{reminder.title}</EventLabelText>
+                  <EventLabelDate>
+                    {`Data do lembrete: ${reminder.formattedDate} `}
+                  </EventLabelDate>
+                </EnventLabel>
+                <CheckBox
+                  onChange={() => {
+                    handleActiveReminder(reminder._id, !reminder.active);
+                  }}
+                  value={reminder.active}
+                />
+              </ReminderContainer>
             ))
           ) : (
             <EmptyView>
