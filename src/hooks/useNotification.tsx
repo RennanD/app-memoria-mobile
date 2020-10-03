@@ -66,6 +66,7 @@ export const NotificationProvider: React.FC = ({ children }) => {
           return;
         }
         const token = (await Notifications.getExpoPushTokenAsync()).data;
+        console.log(token);
         setExpoPushToken(token);
       } else {
         Alert.alert('Must use physical device for Push Notifications');
