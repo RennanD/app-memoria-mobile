@@ -49,7 +49,7 @@ const InviteFriends: React.FC = () => {
       </Header>
 
       <EnviteButton onPress={handleShareApp}>
-        <EnviteButtonText>Compartilhar o Memória </EnviteButtonText>
+        <EnviteButtonText>Link de download</EnviteButtonText>
       </EnviteButton>
 
       <Content>
