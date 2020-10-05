@@ -14,6 +14,7 @@ import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import api from '../services/api';
 
 interface Notification {
   _id: string;
@@ -66,8 +67,18 @@ export const NotificationProvider: React.FC = ({ children }) => {
           return;
         }
         const token = (await Notifications.getExpoPushTokenAsync()).data;
-        console.log(token);
-        setExpoPushToken(token);
+
+        const notificationsToken = await AsyncStorage.getItem(
+          '@AppMemoria:token',
+        );
+
+        if (!notificationsToken) {
+          await api.post('/notifications/token', {
+            token,
+          });
+          await AsyncStorage.setItem('@AppMemoria:token', token);
+          setExpoPushToken(token);
+        }
       } else {
         Alert.alert('Must use physical device for Push Notifications');
       }
