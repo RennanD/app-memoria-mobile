@@ -45,7 +45,7 @@ const InviteFriends: React.FC = () => {
           color="#65c4b0"
           size={100}
         />
-        <PageTitle>Envite o link para seus amigos baixarem o Memória</PageTitle>
+        <PageTitle>Envie o link para seus amigos baixarem o Memória</PageTitle>
       </Header>
 
       <EnviteButton onPress={handleShareApp}>

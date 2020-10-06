@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, Text } from 'react-native';
+import { StatusBar } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -20,10 +20,7 @@ const Index: React.FC = () => {
   };
 
   return (
-    <NavigationContainer
-      linking={linking}
-      fallback={<Text>Carregando...</Text>}
-    >
+    <NavigationContainer linking={linking}>
       <StatusBar barStyle="light-content" backgroundColor="#65C4B0" />
       <AppProvider>
         <Routes />

@@ -45,7 +45,7 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
 
   const handleSubmit = useCallback(
     async (data: ReminderProps) => {
-      const userDateDay = new Date(dateReminder).getDay();
+      const userDateDay = new Date(dateReminder).getDate();
       const subDaysReminder = subDays(
         new Date(dateReminder),
         Number(data.sub_days_date),
@@ -118,17 +118,17 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
               borderColor="#ddd"
               name="hour"
               items={[
-                { label: '8hrs', value: '0 0 8' },
-                { label: '9hrs', value: '0 0 9' },
-                { label: '10hrs', value: '0 0 10' },
-                { label: '11hrs', value: '0 0 11' },
-                { label: '14hrs', value: '0 0 14' },
-                { label: '15hrs', value: '0 0 15' },
-                { label: '16hrs', value: '0 0 16' },
-                { label: '17hrs', value: '0 0 17' },
-                { label: '18hrs', value: '0 0 18' },
-                { label: '19hrs', value: '0 0 19' },
-                { label: '20hrs', value: '0 0 20' },
+                { label: '8hrs', value: '0 8' },
+                { label: '9hrs', value: '0 9' },
+                { label: '10hrs', value: '0 10' },
+                { label: '11hrs', value: '0 11' },
+                { label: '14hrs', value: '0 14' },
+                { label: '15hrs', value: '0 15' },
+                { label: '16hrs', value: '0 16' },
+                { label: '17hrs', value: '0 17' },
+                { label: '18hrs', value: '0 18' },
+                { label: '19hrs', value: '0 19' },
+                { label: '20hrs', value: '0 20' },
               ]}
             />
 
