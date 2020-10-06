@@ -42,12 +42,12 @@ const AcceptInvites: React.FC = () => {
 
   const handleAcceptInvite = useCallback(async () => {
     try {
-      const response = await api.get(`/contacts/${params.contact_id}`);
+      // const response = await api.get(`/contacts/${params.contact_id}`);
 
-      if (response.data.id) {
-        setAccepted(true);
-        return;
-      }
+      // if (response.data.id) {
+      //   setAccepted(true);
+      //   return;
+      // }
 
       await api.post('/invites/accept', {
         owner_id: params.contact_id,
