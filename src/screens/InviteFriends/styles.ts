@@ -31,7 +31,7 @@ export const EnviteButtonText = styled.Text`
   font-size: 16px;
 `;
 
-export const Content = styled.View`
+export const Content = styled.ScrollView`
   flex: 1;
   margin-top: 10px;
   padding: 20px;
@@ -53,17 +53,17 @@ export const ContatcContainer = styled.View`
 `;
 
 export const ContactAvatar = styled.Image`
-  height: 200px;
-  width: 200px;
+  height: 100px;
+  width: 100px;
   background: #eee;
-  border-radius: 100px;
+  border-radius: 50px;
   align-self: center;
 `;
 
 export const ContactName = styled.Text`
   color: #65c4b0;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: bold;
   text-align: center;
-  margin-top: 30px;
+  margin-top: 20px;
 `;
