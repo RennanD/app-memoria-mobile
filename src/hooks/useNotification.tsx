@@ -72,8 +72,6 @@ export const NotificationProvider: React.FC = ({ children }) => {
           '@AppMemoria:token',
         );
 
-        console.log(notificationsToken, token);
-
         if (!notificationsToken) {
           await api.post('/notifications/token', {
             token,
