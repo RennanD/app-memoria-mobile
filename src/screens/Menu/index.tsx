@@ -6,7 +6,7 @@ import socketio from 'socket.io-client';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import * as Notifications from 'expo-notifications';
-import AsyncStorage from '@react-native-community/async-storage';
+// import AsyncStorage from '@react-native-community/async-storage';
 import { useAuth, useNotification } from '../../hooks';
 
 import {
@@ -62,15 +62,14 @@ const Menu: React.FC = () => {
     async function loadToken() {
       const token = (await Notifications.getExpoPushTokenAsync()).data;
 
-      const notificationsToken = await AsyncStorage.getItem(
-        '@AppMemoria:token',
-      );
+      const response = await api.get(`/notifications/token/${token}`);
 
-      if (!notificationsToken) {
+      const { hasToken } = response.data;
+
+      if (!hasToken) {
         await api.post('/notifications/token', {
           token,
         });
-        await AsyncStorage.setItem('@AppMemoria:token', token);
       }
     }
 
