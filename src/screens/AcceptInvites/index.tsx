@@ -104,7 +104,7 @@ const AcceptInvites: React.FC = () => {
         {!accepted ? (
           <ButtonsContainer>
             <CancelButton onPress={goBack}>
-              <ButtonsText>Recusar</ButtonsText>
+              <ButtonsText>Cancelar</ButtonsText>
             </CancelButton>
             <ConfirmButton onPress={handleAcceptInvite}>
               <ButtonsText>Aceitar</ButtonsText>
