@@ -35,6 +35,7 @@
     ],
     "android": {
       "package": "com.resolute.app_memoria",
+      "useNextNotificationsApi": true,
       "versionCode": 102,
       "intentFilters": [
         {

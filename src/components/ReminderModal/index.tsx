@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Modal from 'react-native-modal';
-import { Alert, Platform, Vibration } from 'react-native';
+import { Alert, Platform } from 'react-native';
 
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
 import Constants from 'expo-constants';
-// import * as Notifications from 'expo-notifications';
-import { Notifications } from 'expo';
+import * as Notifications from 'expo-notifications';
+// import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 
 import { subDays, format } from 'date-fns';
@@ -43,13 +43,13 @@ interface ReminderProps {
   notification_message: string;
 }
 
-// Notifications.setNotificationHandler({
-//   handleNotification: async () => ({
-//     shouldShowAlert: true,
-//     shouldPlaySound: false,
-//     shouldSetBadge: false,
-//   }),
-// });
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 const ReminderModal: React.FC<ReminderModalProps> = ({
   dateReminder,
@@ -59,14 +59,13 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
   title,
 }) => {
   const formRef = useRef<FormHandles>(null);
-  // const notificationListener = useRef<SubscriptionPush>();
-  // const responseListener = useRef<SubscriptionPush>();
+  const notificationListener = useRef<SubscriptionPush>();
+  const responseListener = useRef<SubscriptionPush>();
 
   const [myToken, setMyToken] = useState('');
-  const [myStatus, setMyStatus] = useState<any>('');
-  const [myResponse, setMyResponse] = useState<any>(null);
 
   const registerToken = useCallback(async () => {
+    let token;
     if (Constants.isDevice) {
       const { status: existingStatus } = await Permissions.getAsync(
         Permissions.NOTIFICATIONS,
@@ -79,65 +78,40 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
         finalStatus = status;
       }
       if (finalStatus !== 'granted') {
-        Alert.alert('Erorr', 'Failed to get push token for push notification!');
-        const { status } = await Permissions.askAsync(
-          Permissions.NOTIFICATIONS,
-        );
-        finalStatus = status;
+        Alert.alert('Erro', 'Failed to get push token for push notification!');
         return;
       }
-      const token = await Notifications.getExpoPushTokenAsync();
+      token = (await Notifications.getExpoPushTokenAsync()).data;
       console.log(token);
       setMyToken(token);
     } else {
-      Alert.alert('Eror', 'Must use physical device for Push Notifications');
+      Alert.alert('Erro', 'Must use physical device for Push Notifications');
     }
 
     if (Platform.OS === 'android') {
-      Notifications.createChannelAndroidAsync('default', {
+      Notifications.setNotificationChannelAsync('default', {
         name: 'default',
-        sound: true,
-        priority: 'max',
-        vibrate: [0, 250, 250, 250],
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
       });
     }
   }, []);
 
-  const handleNotification = useCallback(notification => {
-    Vibration.vibrate(3);
-    console.log(notification);
-  }, []);
-
   useEffect(() => {
     registerToken();
-    Notifications.addListener(handleNotification);
-  }, [registerToken, handleNotification]);
+    notificationListener.current = Notifications.addNotificationReceivedListener(
+      notification => {
+        console.log(notification);
+      },
+    );
 
-  // useEffect(() => {
-  //   // socket.on('notification', async (notification: Notification) => {
-  //   //   await emitiNotification({
-  //   //     ...notification,
-  //   //     ready: false,
-  //   //   });
-  //   // });
-  //   async function loadToken() {
-  //     const token = (await Notifications.getExpoPushTokenAsync()).data;
-
-  //     const response = await api.get(`/notifications/token/${token}`);
-
-  //     const { hasToken } = response.data;
-
-  //     console.log(hasToken);
-
-  //     if (!hasToken) {
-  //       await api.post('/notifications/token', {
-  //         token,
-  //       });
-  //     }
-  //   }
-
-  //   loadToken();
-  // }, []);
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(
+      response => {
+        console.log(response);
+      },
+    );
+  }, [registerToken]);
 
   const handleSubmit = useCallback(
     async (data: ReminderProps) => {
@@ -178,7 +152,7 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
     >
       <Container>
         <Title>Adicionar lembrete</Title>
-        <Title>{`meu token: ${myToken}, meu status: ${myStatus}`}</Title>
+        <Title>{`meu token: ${myToken}`}</Title>
         <Content>
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input
