@@ -34,6 +34,12 @@
       "**/*"
     ],
     "android": {
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleSignIn": {
+          "apiKey": "AAAAIvWE73I:APA91bE74A_aVaBVkEFYbGvWpCFUjcUp9DlPKf0vxIMW3rsMIJfvBqdp-XDMe4zs1nMFwiaiDSjZUfJf_Y2n2R-IUqP_ttg8PRL2psnr-nxkdezUICPXWyVRSA3TjcW8esQECREVFLsJ"
+        }
+      },
       "package": "com.resolute.app_memoria",
       "useNextNotificationsApi": true,
       "versionCode": 102,

@@ -10,6 +10,8 @@ import * as Notifications from 'expo-notifications';
 // import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 
+// import OneSignal from 'react-native-onesignal';
+
 import { subDays, format } from 'date-fns';
 import {
   Container,
@@ -63,7 +65,6 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
   const responseListener = useRef<SubscriptionPush>();
 
   const [myToken, setMyToken] = useState('');
-
   const registerToken = useCallback(async () => {
     let token;
     if (Constants.isDevice) {
