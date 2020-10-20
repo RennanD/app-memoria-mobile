@@ -1,9 +1,14 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Modal from 'react-native-modal';
-import { Alert } from 'react-native';
+import { Alert, Platform, Vibration } from 'react-native';
 
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
+
+import Constants from 'expo-constants';
+// import * as Notifications from 'expo-notifications';
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
 
 import { subDays, format } from 'date-fns';
 import {
@@ -20,6 +25,10 @@ import PickerInput from '../PickerInput';
 
 import api from '../../services/api';
 
+interface SubscriptionPush {
+  remove: () => void;
+}
+
 interface ReminderModalProps {
   dateReminder: Date;
   isVisible: boolean;
@@ -34,6 +43,14 @@ interface ReminderProps {
   notification_message: string;
 }
 
+// Notifications.setNotificationHandler({
+//   handleNotification: async () => ({
+//     shouldShowAlert: true,
+//     shouldPlaySound: false,
+//     shouldSetBadge: false,
+//   }),
+// });
+
 const ReminderModal: React.FC<ReminderModalProps> = ({
   dateReminder,
   isVisible,
@@ -42,6 +59,85 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
   title,
 }) => {
   const formRef = useRef<FormHandles>(null);
+  // const notificationListener = useRef<SubscriptionPush>();
+  // const responseListener = useRef<SubscriptionPush>();
+
+  const [myToken, setMyToken] = useState('');
+  const [myStatus, setMyStatus] = useState<any>('');
+  const [myResponse, setMyResponse] = useState<any>(null);
+
+  const registerToken = useCallback(async () => {
+    if (Constants.isDevice) {
+      const { status: existingStatus } = await Permissions.getAsync(
+        Permissions.NOTIFICATIONS,
+      );
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Permissions.askAsync(
+          Permissions.NOTIFICATIONS,
+        );
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        Alert.alert('Erorr', 'Failed to get push token for push notification!');
+        const { status } = await Permissions.askAsync(
+          Permissions.NOTIFICATIONS,
+        );
+        finalStatus = status;
+        return;
+      }
+      const token = await Notifications.getExpoPushTokenAsync();
+      console.log(token);
+      setMyToken(token);
+    } else {
+      Alert.alert('Eror', 'Must use physical device for Push Notifications');
+    }
+
+    if (Platform.OS === 'android') {
+      Notifications.createChannelAndroidAsync('default', {
+        name: 'default',
+        sound: true,
+        priority: 'max',
+        vibrate: [0, 250, 250, 250],
+      });
+    }
+  }, []);
+
+  const handleNotification = useCallback(notification => {
+    Vibration.vibrate(3);
+    console.log(notification);
+  }, []);
+
+  useEffect(() => {
+    registerToken();
+    Notifications.addListener(handleNotification);
+  }, [registerToken, handleNotification]);
+
+  // useEffect(() => {
+  //   // socket.on('notification', async (notification: Notification) => {
+  //   //   await emitiNotification({
+  //   //     ...notification,
+  //   //     ready: false,
+  //   //   });
+  //   // });
+  //   async function loadToken() {
+  //     const token = (await Notifications.getExpoPushTokenAsync()).data;
+
+  //     const response = await api.get(`/notifications/token/${token}`);
+
+  //     const { hasToken } = response.data;
+
+  //     console.log(hasToken);
+
+  //     if (!hasToken) {
+  //       await api.post('/notifications/token', {
+  //         token,
+  //       });
+  //     }
+  //   }
+
+  //   loadToken();
+  // }, []);
 
   const handleSubmit = useCallback(
     async (data: ReminderProps) => {
@@ -82,6 +178,7 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
     >
       <Container>
         <Title>Adicionar lembrete</Title>
+        <Title>{`meu token: ${myToken}, meu status: ${myStatus}`}</Title>
         <Content>
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input

@@ -1,13 +1,13 @@
 /* eslint-disable max-len */
 /* eslint-disable prettier/prettier */
-import React, { useCallback, useMemo, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { FlatList } from 'react-native';
-import socketio from 'socket.io-client';
+// import socketio from 'socket.io-client';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import * as Notifications from 'expo-notifications';
+// import * as Notifications from 'expo-notifications';
 // import AsyncStorage from '@react-native-community/async-storage';
-import { useAuth, useNotification } from '../../hooks';
+import { useAuth } from '../../hooks';
 
 import {
   Container,
@@ -16,14 +16,14 @@ import {
   Header,
   CardItemTitle,
   Avatar,
-  Badge,
-  BadgeText,
+  // Badge,
+  // BadgeText,
   PageTitle,
 } from './styles';
 import boxShadowEffect from '../../styles/boxShadow';
 
 import menuItems from '../../json/menuItems';
-import api from '../../services/api';
+// import api from '../../services/api';
 
 interface Notification {
   _id: string;
@@ -43,40 +43,14 @@ interface RouteProps {
 const Menu: React.FC = () => {
   const { navigate } = useNavigation();
   const { account } = useAuth();
-  const { emitiNotification, numberOfNotifications } = useNotification();
+  // const { numberOfNotifications } = useNotification();
   const { params } = useRoute<RouteProps>();
 
-  const socket = useMemo(() => socketio('https://app-memoria.tk', {
-    query: {
-      user_id: account.user.id,
-    },
-  }), [account.user.id]);
-
-  useEffect(() => {
-    // socket.on('notification', async (notification: Notification) => {
-    //   await emitiNotification({
-    //     ...notification,
-    //     ready: false,
-    //   });
-    // });
-    async function loadToken() {
-      const token = (await Notifications.getExpoPushTokenAsync()).data;
-
-      const response = await api.get(`/notifications/token/${token}`);
-
-      const { hasToken } = response.data;
-
-      console.log(hasToken);
-
-      if (!hasToken) {
-        await api.post('/notifications/token', {
-          token,
-        });
-      }
-    }
-
-    loadToken();
-  }, [emitiNotification, socket]);
+  // const socket = useMemo(() => socketio('https://app-memoria.tk', {
+  //   query: {
+  //     user_id: account.user.id,
+  //   },
+  // }), [account.user.id]);
 
   useEffect(() => {
     if (params) {
@@ -123,13 +97,13 @@ const Menu: React.FC = () => {
               onPress={() => handleNavigate(item.route)}
               style={boxShadowEffect}
             >
-              {item.title === 'Notificações'
+              {/* {item.title === 'Notificações'
                 && numberOfNotifications > 0
                 && (
                 <Badge>
                   <BadgeText>{numberOfNotifications}</BadgeText>
                 </Badge>
-                )}
+                )} */}
               {item.icon}
               <CardItemTitle>{item.title}</CardItemTitle>
             </CardItem>
