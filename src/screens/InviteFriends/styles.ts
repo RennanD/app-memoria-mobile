@@ -37,7 +37,6 @@ export const Content = styled.ScrollView`
   padding: 20px;
   height: 100%;
   border: 1px solid #ddd;
-  justify-content: center;
 `;
 
 export const ContactCard = styled.TouchableOpacity`
@@ -53,10 +52,10 @@ export const ContatcContainer = styled.View`
 `;
 
 export const ContactAvatar = styled.Image`
-  height: 100px;
-  width: 100px;
+  height: 120px;
+  width: 120px;
   background: #eee;
-  border-radius: 50px;
+  border-radius: 60px;
   align-self: center;
 `;
 

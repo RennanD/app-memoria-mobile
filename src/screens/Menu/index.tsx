@@ -66,6 +66,8 @@ const Menu: React.FC = () => {
 
       const { hasToken } = response.data;
 
+      console.log(hasToken);
+
       if (!hasToken) {
         await api.post('/notifications/token', {
           token,
