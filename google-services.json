@@ -1,23 +1,40 @@
 {
   "project_info": {
-    "project_number": "…",
-    "firebase_url": "…",
-    "project_id": "…",
-    "storage_bucket": "…"
+    "project_number": "150148018034",
+    "firebase_url": "https://app-memoria.firebaseio.com",
+    "project_id": "app-memoria",
+    "storage_bucket": "app-memoria.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "…",
+        "mobilesdk_app_id": "1:150148018034:android:af5b83cbc5aded2253f7eb",
         "android_client_info": {
-          "package_name": "…"
+          "package_name": "com.resolute.app_memoria"
         }
       },
+      "oauth_client": [
+        {
+          "client_id": "150148018034-5u20uf3u2gv2feqe0dutgeutfou1nkle.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AAAAIvWE73I:APA91bE74A_aVaBVkEFYbGvWpCFUjcUp9DlPKf0vxIMW3rsMIJfvBqdp-XDMe4zs1nMFwiaiDSjZUfJf_Y2n2R-IUqP_ttg8PRL2psnr-nxkdezUICPXWyVRSA3TjcW8esQECREVFLsJ"
+          "current_key": "AIzaSyDINDtLWaR07e5oqDlmY3xD10ADzaoVHa4"
         }
-      ]
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150148018034-5u20uf3u2gv2feqe0dutgeutfou1nkle.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
-  ]
+  ],
+  "configuration_version": "1"
 }

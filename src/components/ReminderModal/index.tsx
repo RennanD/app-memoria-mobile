@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import Modal from 'react-native-modal';
 import { Alert, Platform } from 'react-native';
 
@@ -7,10 +7,8 @@ import { FormHandles } from '@unform/core';
 
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
-// import { Notifications } from 'expo';
-import * as Permissions from 'expo-permissions';
 
-// import OneSignal from 'react-native-onesignal';
+import * as Permissions from 'expo-permissions';
 
 import { subDays, format } from 'date-fns';
 import {
@@ -63,10 +61,7 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
   const formRef = useRef<FormHandles>(null);
   const notificationListener = useRef<SubscriptionPush>();
   const responseListener = useRef<SubscriptionPush>();
-
-  const [myToken, setMyToken] = useState('');
   const registerToken = useCallback(async () => {
-    let token;
     if (Constants.isDevice) {
       const { status: existingStatus } = await Permissions.getAsync(
         Permissions.NOTIFICATIONS,
@@ -79,12 +74,28 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
         finalStatus = status;
       }
       if (finalStatus !== 'granted') {
-        Alert.alert('Erro', 'Failed to get push token for push notification!');
+        Alert.alert(
+          'Erro',
+          'Você precisa aceitar as permissões de notificação.',
+        );
+        const { status } = await Permissions.askAsync(
+          Permissions.NOTIFICATIONS,
+        );
+        finalStatus = status;
         return;
       }
-      token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token);
-      setMyToken(token);
+
+      const { data } = await Notifications.getExpoPushTokenAsync();
+
+      const response = await api.get(`/notifications/token/${data}`);
+
+      const { hasToken } = response.data;
+
+      if (!hasToken) {
+        await api.post('/notifications/token', {
+          token: data,
+        });
+      }
     } else {
       Alert.alert('Erro', 'Must use physical device for Push Notifications');
     }
@@ -153,7 +164,6 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
     >
       <Container>
         <Title>Adicionar lembrete</Title>
-        <Title>{`meu token: ${myToken}`}</Title>
         <Content>
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input
