@@ -196,10 +196,11 @@ const ReminderDetail: React.FC = () => {
             reminders.map(reminder => (
               <ReminderContainer>
                 <EnventLabel key={reminder._id} style={boxShadowEffect}>
-                  <EventLabelText>{reminder.title}</EventLabelText>
-                  <EventLabelDate>
-                    {`Data do lembrete: ${reminder.formattedDate} `}
-                  </EventLabelDate>
+                  <EventLabelText>
+                    {reminder.notification_message}
+                  </EventLabelText>
+                  <EventLabelDate>{reminder.title}</EventLabelDate>
+                  <EventLabelDate>{reminder.formattedDate}</EventLabelDate>
                 </EnventLabel>
                 <CheckBox
                   onChange={() => {

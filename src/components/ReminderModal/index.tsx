@@ -114,37 +114,46 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
     registerToken();
     notificationListener.current = Notifications.addNotificationReceivedListener(
       notification => {
-        console.log(notification);
+        Alert.alert(JSON.stringify(notification));
       },
     );
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener(
       response => {
-        console.log(response);
+        Alert.alert('Notificação', JSON.stringify(response));
       },
     );
   }, [registerToken]);
 
   const handleSubmit = useCallback(
     async (data: ReminderProps) => {
-      const userDateDay = new Date(dateReminder).getDate();
-      const subDaysReminder = subDays(
-        new Date(dateReminder),
-        Number(data.sub_days_date),
-      );
+      const remindersArray = [];
 
-      const stringDate = format(subDaysReminder, "MM'-'dd");
-      const getMonth = subDaysReminder.getMonth() + 1;
-      const getDay = subDaysReminder.getDate();
+      let count = 0;
 
-      try {
-        await api.post('/reminders', {
+      for (count = 1; count <= Number(data.sub_days_date); count += 1) {
+        // const userDateDay = new Date(dateReminder).getDate();
+        const subDaysReminder = subDays(new Date(dateReminder), count);
+
+        const stringDate = format(subDaysReminder, "MM'-'dd");
+        const getMonth = subDaysReminder.getMonth() + 1;
+        const getDay = subDaysReminder.getDate();
+
+        const reminderObjetc = {
           important_date_id,
           notification_message: data.notification_message,
           title,
           reminderDate: subDaysReminder,
           parsed_date: stringDate,
-          date: `${data.hour} ${getDay}-${userDateDay} ${getMonth} *`,
+          date: `${data.hour} ${getDay} ${getMonth} *`,
+        };
+
+        remindersArray.push(reminderObjetc);
+      }
+
+      try {
+        await api.post('/reminders', {
+          reminders: remindersArray,
         });
 
         Alert.alert('Sucesso', 'Lembrete Adicionado com sucesso');
@@ -204,6 +213,7 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
                 { label: '9hrs', value: '0 9' },
                 { label: '10hrs', value: '0 10' },
                 { label: '11hrs', value: '0 11' },
+                { label: '13hrs', value: '0 13' },
                 { label: '14hrs', value: '0 14' },
                 { label: '15hrs', value: '0 15' },
                 { label: '16hrs', value: '0 16' },

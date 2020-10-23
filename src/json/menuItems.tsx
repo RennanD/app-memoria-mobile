@@ -35,7 +35,7 @@ const items = [
   {
     title: 'Notificações',
     icon: <Notfications height="40" width="40" />,
-    route: 'Notifications',
+    route: '',
   },
   {
     title: 'Convide seus amigos',
