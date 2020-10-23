@@ -1,14 +1,9 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import Modal from 'react-native-modal';
-import { Alert, Platform } from 'react-native';
+import { Alert } from 'react-native';
 
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
-
-import Constants from 'expo-constants';
-import * as Notifications from 'expo-notifications';
-
-import * as Permissions from 'expo-permissions';
 
 import { subDays, format } from 'date-fns';
 import {
@@ -25,10 +20,6 @@ import PickerInput from '../PickerInput';
 
 import api from '../../services/api';
 
-interface SubscriptionPush {
-  remove: () => void;
-}
-
 interface ReminderModalProps {
   dateReminder: Date;
   isVisible: boolean;
@@ -43,14 +34,6 @@ interface ReminderProps {
   notification_message: string;
 }
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
-
 const ReminderModal: React.FC<ReminderModalProps> = ({
   dateReminder,
   isVisible,
@@ -59,71 +42,6 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
   title,
 }) => {
   const formRef = useRef<FormHandles>(null);
-  const notificationListener = useRef<SubscriptionPush>();
-  const responseListener = useRef<SubscriptionPush>();
-  const registerToken = useCallback(async () => {
-    if (Constants.isDevice) {
-      const { status: existingStatus } = await Permissions.getAsync(
-        Permissions.NOTIFICATIONS,
-      );
-      let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
-        const { status } = await Permissions.askAsync(
-          Permissions.NOTIFICATIONS,
-        );
-        finalStatus = status;
-      }
-      if (finalStatus !== 'granted') {
-        Alert.alert(
-          'Erro',
-          'Você precisa aceitar as permissões de notificação.',
-        );
-        const { status } = await Permissions.askAsync(
-          Permissions.NOTIFICATIONS,
-        );
-        finalStatus = status;
-        return;
-      }
-
-      const { data } = await Notifications.getExpoPushTokenAsync();
-
-      const response = await api.get(`/notifications/token/${data}`);
-
-      const { hasToken } = response.data;
-
-      if (!hasToken) {
-        await api.post('/notifications/token', {
-          token: data,
-        });
-      }
-    } else {
-      Alert.alert('Erro', 'Must use physical device for Push Notifications');
-    }
-
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    registerToken();
-    notificationListener.current = Notifications.addNotificationReceivedListener(
-      notification => {
-        Alert.alert(JSON.stringify(notification));
-      },
-    );
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(
-      response => {
-        Alert.alert('Notificação', JSON.stringify(response));
-      },
-    );
-  }, [registerToken]);
 
   const handleSubmit = useCallback(
     async (data: ReminderProps) => {

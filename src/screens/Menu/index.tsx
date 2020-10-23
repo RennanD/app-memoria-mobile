@@ -1,7 +1,8 @@
 /* eslint-disable max-len */
 /* eslint-disable prettier/prettier */
-import React, { useCallback, useEffect } from 'react';
-import { FlatList } from 'react-native';
+import React, { useCallback, useEffect, useRef } from 'react';
+import * as Notifications from 'expo-notifications';
+import { Alert, FlatList } from 'react-native';
 // import socketio from 'socket.io-client';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -40,17 +41,40 @@ interface RouteProps {
   };
 }
 
+interface SubscriptionPush {
+  remove: () => void;
+}
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
 const Menu: React.FC = () => {
   const { navigate } = useNavigation();
   const { account } = useAuth();
-  // const { numberOfNotifications } = useNotification();
+
   const { params } = useRoute<RouteProps>();
 
-  // const socket = useMemo(() => socketio('https://app-memoria.tk', {
-  //   query: {
-  //     user_id: account.user.id,
-  //   },
-  // }), [account.user.id]);
+  const notificationListener = useRef<SubscriptionPush>();
+  const responseListener = useRef<SubscriptionPush>();
+
+  useEffect(() => {
+    notificationListener.current = Notifications.addNotificationReceivedListener(
+      notification => {
+        Alert.alert(JSON.stringify(notification));
+      },
+    );
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(
+      response => {
+        Alert.alert('Notificação', JSON.stringify(response));
+      },
+    );
+  }, []);
 
   useEffect(() => {
     if (params) {
