@@ -55,7 +55,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
     >
       <Container>
         <Content>
-          <Image source={{ uri: image_uri }} />
+          <Image source={{ uri: image_uri }} resizeMode="contain" />
           <ConfirmButton onPress={handleShareMessage}>
             <ButtonText>Compartilhar</ButtonText>
           </ConfirmButton>

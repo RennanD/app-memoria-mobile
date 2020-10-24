@@ -104,6 +104,7 @@ const MyMessages: React.FC = () => {
               >
                 <ImageMessageContent
                   source={{ uri: newMessage.message_content }}
+                  resizeMode="contain"
                 />
               </MessageButtom>
             ))}
