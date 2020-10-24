@@ -11,8 +11,6 @@ import { Alert } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
-// import { useVerification } from '.';
-
 import api from '../services/api';
 
 interface SingInCredencials {
