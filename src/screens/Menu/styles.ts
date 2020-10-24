@@ -56,6 +56,13 @@ export const CardItemTitle = styled.Text`
   font-weight: 600;
 `;
 
+export const SubtitleCard = styled.Text`
+  color: #25a182;
+  font-size: 12px;
+  text-align: center;
+  font-weight: 400;
+`;
+
 export const Badge = styled.View`
   padding: 3px 7px;
   border-radius: 15px;

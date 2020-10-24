@@ -15,9 +15,23 @@ import {
 import { useNotification } from '../../hooks';
 
 import { Notfications } from '../../assets';
+import EmptyView from '../../components/EmptyView';
 
 const Notifications: React.FC = () => {
   const { notifications, readNotification } = useNotification();
+
+  if (!notifications) {
+    return (
+      <Container>
+        <Header>
+          <Notfications width="60" height="60" />
+          <PageTitle>Minhas notificações</PageTitle>
+        </Header>
+        <EmptyView icon="bell" text="Voçê ainda não possui notificações" />
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <Header>
@@ -31,7 +45,7 @@ const Notifications: React.FC = () => {
         renderItem={({ item: notification }) => (
           <NotificationContainer
             onPress={() => readNotification(notification._id)}
-            isReaded={notification.ready}
+            isReaded={notification.read}
           >
             <Feather name="bell" size={28} color="#65C4B0" />
             <NotificationContent>

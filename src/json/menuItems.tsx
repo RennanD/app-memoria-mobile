@@ -24,6 +24,7 @@ const items = [
   },
   {
     title: 'Presentes',
+    subtitle: 'Em breve',
     icon: <Gift height="40" width="40" />,
     route: '',
   },
@@ -35,7 +36,7 @@ const items = [
   {
     title: 'Notificações',
     icon: <Notfications height="40" width="40" />,
-    route: '',
+    route: 'Notifications',
   },
   {
     title: 'Convide seus amigos',

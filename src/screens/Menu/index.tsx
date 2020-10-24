@@ -8,7 +8,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 // import * as Notifications from 'expo-notifications';
 // import AsyncStorage from '@react-native-community/async-storage';
-import { useAuth } from '../../hooks';
+import { useAuth, useNotification } from '../../hooks';
 
 import {
   Container,
@@ -17,9 +17,10 @@ import {
   Header,
   CardItemTitle,
   Avatar,
-  // Badge,
-  // BadgeText,
   PageTitle,
+  Badge,
+  BadgeText,
+  SubtitleCard,
 } from './styles';
 import boxShadowEffect from '../../styles/boxShadow';
 
@@ -56,6 +57,7 @@ Notifications.setNotificationHandler({
 const Menu: React.FC = () => {
   const { navigate } = useNavigation();
   const { account } = useAuth();
+  const { unreadNotifications } = useNotification();
 
   const { params } = useRoute<RouteProps>();
 
@@ -121,15 +123,16 @@ const Menu: React.FC = () => {
               onPress={() => handleNavigate(item.route)}
               style={boxShadowEffect}
             >
-              {/* {item.title === 'Notificações'
-                && numberOfNotifications > 0
+              {item.title === 'Notificações'
+                && unreadNotifications > 0
                 && (
                 <Badge>
-                  <BadgeText>{numberOfNotifications}</BadgeText>
+                  <BadgeText>{unreadNotifications}</BadgeText>
                 </Badge>
-                )} */}
+                )}
               {item.icon}
               <CardItemTitle>{item.title}</CardItemTitle>
+              {item.subtitle && <SubtitleCard>{item.subtitle}</SubtitleCard>}
             </CardItem>
           )}
         />

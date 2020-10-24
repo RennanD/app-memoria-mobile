@@ -13,7 +13,7 @@ import * as Notifications from 'expo-notifications';
 import api from '../services/api';
 
 interface Notification {
-  id: string;
+  _id: string;
   read: boolean;
   important_date_id: string;
   notification_message: string;
@@ -25,6 +25,7 @@ interface NotificationsContextData {
   notificationsLoading: boolean;
   getNotifications(): Promise<void>;
   getPushToken(): Promise<void>;
+  readNotification(notification_id: string): Promise<void>;
 }
 
 const NotificationsContext = createContext<NotificationsContextData>(
@@ -98,10 +99,30 @@ export const NotificationProvider: React.FC = ({ children }) => {
     }
   }, []);
 
+  const readNotification = useCallback(
+    async (notification_id: string) => {
+      const newNotifications = notifications.map(notification => {
+        if (notification_id === notification._id) {
+          return {
+            ...notification,
+            read: true,
+          };
+        }
+
+        return notification;
+      });
+      setNotifications(newNotifications);
+
+      await api.patch(`/notifications/${notification_id}`);
+    },
+    [notifications],
+  );
+
   return (
     <NotificationsContext.Provider
       value={{
         getNotifications,
+        readNotification,
         getPushToken,
         notifications,
         notificationsLoading,

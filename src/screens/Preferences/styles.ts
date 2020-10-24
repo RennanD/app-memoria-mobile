@@ -12,7 +12,7 @@ export const Header = styled.View`
 `;
 
 export const PageTitle = styled.Text`
-  font-size: 24px;
+  font-size: 18px;
   color: #25a182;
   font-weight: 600;
   margin-top: 4px;

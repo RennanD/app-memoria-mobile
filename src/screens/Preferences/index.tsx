@@ -143,7 +143,8 @@ const Preferences: React.FC = () => {
     <Container>
       <Header>
         <PageTitle>
-          Escolha aqui suas preferências e seu gostos pessoais
+          Facilite a vida de quem quer lhe presentear e cadastre aqui as suas
+          preferências.
         </PageTitle>
       </Header>
       {!preferencesItems.length ? (
