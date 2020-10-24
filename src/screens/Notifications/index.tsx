@@ -20,7 +20,7 @@ import EmptyView from '../../components/EmptyView';
 const Notifications: React.FC = () => {
   const { notifications, readNotification } = useNotification();
 
-  if (!notifications) {
+  if (!notifications.length) {
     return (
       <Container>
         <Header>
