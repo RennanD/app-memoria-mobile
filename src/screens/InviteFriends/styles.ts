@@ -12,7 +12,7 @@ export const Header = styled.View`
 `;
 
 export const PageTitle = styled.Text`
-  font-size: 22px;
+  font-size: 16px;
   color: #65c4b0;
   text-align: center;
 `;
@@ -61,7 +61,7 @@ export const ContactAvatar = styled.Image`
 
 export const ContactName = styled.Text`
   color: #65c4b0;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   text-align: center;
   margin-top: 20px;

@@ -45,7 +45,10 @@ const InviteFriends: React.FC = () => {
           color="#65c4b0"
           size={100}
         />
-        <PageTitle>Envie o link para seus amigos baixarem o Memória</PageTitle>
+        <PageTitle>
+          Primeiramente você deve enviar este link para seus contatos. É o link
+          para instalar o App MEMÓRIA.
+        </PageTitle>
       </Header>
 
       <EnviteButton onPress={handleShareApp}>
@@ -60,7 +63,8 @@ const InviteFriends: React.FC = () => {
             }}
           />
           <ContactName>
-            Gerar um link compartilhavel para o meu perfil do Memória
+            Depois de instalado, envie um link de convite para adicionar as
+            pessoas à sua lista particular.
           </ContactName>
         </ContatcContainer>
 
