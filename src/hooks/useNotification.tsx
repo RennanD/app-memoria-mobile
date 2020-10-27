@@ -1,11 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import React, {
-  createContext,
-  useCallback,
-  useState,
-  useContext,
-  useEffect,
-} from 'react';
+import React, { createContext, useCallback, useState, useContext } from 'react';
 
 import { Alert, Platform } from 'react-native';
 import * as Permissions from 'expo-permissions';
@@ -124,9 +118,9 @@ export const NotificationProvider: React.FC = ({ children }) => {
     [notifications],
   );
 
-  useEffect(() => {
-    getNotifications();
-  }, [getNotifications]);
+  // useEffect(() => {
+  //   getNotifications();
+  // }, [getNotifications]);
 
   return (
     <NotificationsContext.Provider

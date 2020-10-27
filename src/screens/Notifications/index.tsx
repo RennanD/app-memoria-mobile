@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
@@ -18,7 +18,15 @@ import { Notfications } from '../../assets';
 import EmptyView from '../../components/EmptyView';
 
 const Notifications: React.FC = () => {
-  const { notifications, readNotification } = useNotification();
+  const {
+    notifications,
+    readNotification,
+    getNotifications,
+  } = useNotification();
+
+  useEffect(() => {
+    getNotifications();
+  }, []);
 
   if (!notifications.length) {
     return (
