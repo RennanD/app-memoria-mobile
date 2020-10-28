@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import React, { createContext, useCallback, useState, useContext } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useState,
+  useContext,
+  useEffect,
+} from 'react';
 
 import { Alert, Platform } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
-
-// import AsyncStorage from '@react-native-community/async-storage';
-
-// import { useVerification } from '.';
 
 import api from '../services/api';
 
@@ -16,7 +18,7 @@ interface Notification {
   _id: string;
   read: boolean;
   important_date_id: string;
-  notification_message: string;
+  description: string;
   title: string;
 }
 interface NotificationsContextData {
@@ -118,9 +120,9 @@ export const NotificationProvider: React.FC = ({ children }) => {
     [notifications],
   );
 
-  // useEffect(() => {
-  //   getNotifications();
-  // }, [getNotifications]);
+  useEffect(() => {
+    getNotifications();
+  }, []);
 
   return (
     <NotificationsContext.Provider

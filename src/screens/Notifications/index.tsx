@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
@@ -18,16 +18,7 @@ import { Notfications } from '../../assets';
 import EmptyView from '../../components/EmptyView';
 
 const Notifications: React.FC = () => {
-  const {
-    notifications,
-    readNotification,
-    getNotifications,
-  } = useNotification();
-
-  useEffect(() => {
-    getNotifications();
-  }, []);
-
+  const { notifications, readNotification } = useNotification();
   if (!notifications.length) {
     return (
       <Container>
@@ -57,11 +48,9 @@ const Notifications: React.FC = () => {
           >
             <Feather name="bell" size={28} color="#65C4B0" />
             <NotificationContent>
-              <NotificationTitle>
-                {notification.notification_message}
-              </NotificationTitle>
+              <NotificationTitle>{notification.description}</NotificationTitle>
               <NotificationDescription>
-                Entre na sessão de mensagens e celebre esta data especial
+                Veja mais detalhes
               </NotificationDescription>
             </NotificationContent>
           </NotificationContainer>
