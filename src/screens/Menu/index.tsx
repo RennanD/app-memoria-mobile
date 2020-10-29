@@ -2,12 +2,10 @@
 /* eslint-disable prettier/prettier */
 import React, { useCallback, useEffect, useRef } from 'react';
 import * as Notifications from 'expo-notifications';
-import { Alert, FlatList } from 'react-native';
-// import socketio from 'socket.io-client';
+import { FlatList } from 'react-native';
+
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-// import * as Notifications from 'expo-notifications';
-// import AsyncStorage from '@react-native-community/async-storage';
 import { useAuth, useNotification } from '../../hooks';
 
 import {
@@ -25,7 +23,6 @@ import {
 import boxShadowEffect from '../../styles/boxShadow';
 
 import menuItems from '../../json/menuItems';
-// import api from '../../services/api';
 
 interface Notification {
   _id: string;
@@ -57,7 +54,7 @@ Notifications.setNotificationHandler({
 const Menu: React.FC = () => {
   const { navigate } = useNavigation();
   const { account } = useAuth();
-  const { unreadNotifications, getPushToken } = useNotification();
+  const { unreadNotifications, getPushToken, getNotifications } = useNotification();
 
   const { params } = useRoute<RouteProps>();
 
@@ -66,15 +63,18 @@ const Menu: React.FC = () => {
 
   useEffect(() => {
     getPushToken();
+    getNotifications();
     notificationListener.current = Notifications.addNotificationReceivedListener(
       notification => {
-        Alert.alert(JSON.stringify(notification));
+        // Alert.alert(JSON.stringify(notification));
+        console.log(notification);
       },
     );
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener(
       response => {
-        Alert.alert('Notificação', JSON.stringify(response));
+        // Alert.alert('Notificação', JSON.stringify(response));
+        console.log(response);
       },
     );
   }, []);
