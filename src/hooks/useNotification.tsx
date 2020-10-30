@@ -25,7 +25,6 @@ interface NotificationsContextData {
   notifications: Notification[];
   unreadNotifications: number;
   notificationsLoading: boolean;
-  getNotifications(): Promise<void>;
   getPushToken(): Promise<void>;
   readNotification(notification_id: string): Promise<void>;
 }
@@ -38,19 +37,6 @@ export const NotificationProvider: React.FC = ({ children }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadNotifications, setUnreadNotifications] = useState(0);
   const [notificationsLoading, setNotificationsloading] = useState(false);
-
-  const getNotifications = useCallback(async () => {
-    setNotificationsloading(true);
-    const response = await api.get('/notifications');
-
-    const findUnreadNotifications: Notification[] = response.data.filter(
-      (notification: Notification) => notification.read === false,
-    );
-
-    setUnreadNotifications(findUnreadNotifications.length);
-
-    setNotifications(response.data);
-  }, []);
 
   const getPushToken = useCallback(async () => {
     if (Constants.isDevice) {
@@ -121,13 +107,25 @@ export const NotificationProvider: React.FC = ({ children }) => {
   );
 
   useEffect(() => {
+    async function getNotifications() {
+      setNotificationsloading(true);
+      const response = await api.get('/notifications');
+
+      const findUnreadNotifications: Notification[] = response.data.filter(
+        (notification: Notification) => notification.read === false,
+      );
+
+      setUnreadNotifications(findUnreadNotifications.length);
+
+      setNotifications(response.data);
+    }
+
     getNotifications();
   }, []);
 
   return (
     <NotificationsContext.Provider
       value={{
-        getNotifications,
         readNotification,
         getPushToken,
         notifications,

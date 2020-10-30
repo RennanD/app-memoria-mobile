@@ -54,7 +54,7 @@ Notifications.setNotificationHandler({
 const Menu: React.FC = () => {
   const { navigate } = useNavigation();
   const { account } = useAuth();
-  const { unreadNotifications, getPushToken, getNotifications } = useNotification();
+  const { unreadNotifications, getPushToken } = useNotification();
 
   const { params } = useRoute<RouteProps>();
 
@@ -63,11 +63,12 @@ const Menu: React.FC = () => {
 
   useEffect(() => {
     getPushToken();
-    getNotifications();
     notificationListener.current = Notifications.addNotificationReceivedListener(
       notification => {
         // Alert.alert(JSON.stringify(notification));
         console.log(notification);
+
+        navigate('Notification');
       },
     );
 
@@ -77,7 +78,7 @@ const Menu: React.FC = () => {
         console.log(response);
       },
     );
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (params) {
