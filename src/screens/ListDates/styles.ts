@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
@@ -11,6 +12,7 @@ export const Header = styled.View`
   flex-direction: row;
   align-items: center;
   padding: 0 15px;
+  padding-top: ${Platform.OS === 'ios' && 40}px;
 `;
 
 export const PageTitle = styled.Text`
@@ -82,4 +84,16 @@ export const EmptyViewText = styled.Text`
   font-size: 24px;
   color: #ddd;
   text-align: center;
+`;
+
+export const FloatButton = styled.TouchableOpacity`
+  height: 50px;
+  width: 50px;
+  background: #65c4b0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  right: 20px;
+  bottom: 20px;
+  position: absolute;
 `;

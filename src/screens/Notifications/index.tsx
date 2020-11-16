@@ -32,6 +32,8 @@ const Notifications: React.FC = () => {
     [],
   );
 
+  // useEffect(() => {}, []);
+
   if (!notifications.length) {
     return (
       <Container>

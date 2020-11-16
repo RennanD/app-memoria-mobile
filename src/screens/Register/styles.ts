@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import styled from 'styled-components/native';
 
 import TextInput from '../../components/TextInput';
@@ -11,6 +12,7 @@ export const Container = styled.ScrollView.attrs({
 })`
   flex: 1;
   background: #65c4b0;
+  padding-top: ${Platform.OS === 'ios' ? 40 : 0}px;
 `;
 
 export const ProfileImage = styled.Image`

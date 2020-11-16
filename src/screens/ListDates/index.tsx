@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -16,11 +16,13 @@ import {
   EventLabelText,
   EmptyView,
   EmptyViewText,
+  FloatButton,
 } from './styles';
 
 import ListDateHeader from '../../components/ListDateHeader';
 
 import api from '../../services/api';
+import boxShadownEffect from '../../styles/boxShadow';
 
 interface Events {
   monthDay: number;
@@ -79,6 +81,45 @@ const ListDates: React.FC = () => {
 
   if (!dates.length) {
     return (
+      <>
+        <Container>
+          <Header>
+            <MaterialCommunityIcons
+              name="calendar-month"
+              size={48}
+              color="#fff"
+            />
+            <PageTitle>Datas importantes</PageTitle>
+          </Header>
+
+          <ListDateHeader
+            onChangeMonth={value => setMonth(Number(value))}
+            currentMonth={String(month)}
+          />
+
+          <EmptyView>
+            <MaterialCommunityIcons
+              name="calendar-remove-outline"
+              color="#ddd"
+              size={40}
+            />
+            <EmptyViewText>
+              Não há datas cadastradas, selecione outro mês para continuar
+            </EmptyViewText>
+          </EmptyView>
+        </Container>
+        <FloatButton
+          onPress={() => navigate('CreateEvent')}
+          style={boxShadownEffect}
+        >
+          <Feather name="plus" color="#fff" size={24} />
+        </FloatButton>
+      </>
+    );
+  }
+
+  return (
+    <>
       <Container>
         <Header>
           <MaterialCommunityIcons
@@ -94,78 +135,61 @@ const ListDates: React.FC = () => {
           currentMonth={String(month)}
         />
 
-        <EmptyView>
-          <MaterialCommunityIcons
-            name="calendar-remove-outline"
-            color="#ddd"
-            size={40}
-          />
-          <EmptyViewText>
-            Não há datas cadastradas, selecione outro mês para continuar
-          </EmptyViewText>
-        </EmptyView>
-      </Container>
-    );
-  }
+        <ListDatesItem>
+          <ListDatesDay>
+            <ListDatesText>Dia</ListDatesText>
+          </ListDatesDay>
 
-  return (
-    <Container>
-      <Header>
-        <MaterialCommunityIcons name="calendar-month" size={48} color="#fff" />
-        <PageTitle>Datas importantes</PageTitle>
-      </Header>
+          <ListDatesMonth>
+            <ListDatesText>Eventos</ListDatesText>
+          </ListDatesMonth>
+        </ListDatesItem>
 
-      <ListDateHeader
-        onChangeMonth={value => setMonth(Number(value))}
-        currentMonth={String(month)}
-      />
+        <ListDatesView>
+          {dates.map(dateItem => (
+            <ListDatesItem>
+              <ListDatesDay>
+                <ListDatesText>{dateItem.monthDay}</ListDatesText>
+              </ListDatesDay>
 
-      <ListDatesItem>
-        <ListDatesDay>
-          <ListDatesText>Dia</ListDatesText>
-        </ListDatesDay>
-
-        <ListDatesMonth>
-          <ListDatesText>Eventos</ListDatesText>
-        </ListDatesMonth>
-      </ListDatesItem>
-
-      <ListDatesView>
-        {dates.map(dateItem => (
-          <ListDatesItem>
-            <ListDatesDay>
-              <ListDatesText>{dateItem.monthDay}</ListDatesText>
-            </ListDatesDay>
-
-            <ListDatesMonth>
-              {dateItem.events.map(event => {
-                if (event.type === 'important-date') {
+              <ListDatesMonth>
+                {dateItem.events.map(event => {
+                  if (event.type === 'important-date') {
+                    return (
+                      <EnventLabel
+                        key={event.id}
+                        onPress={() => {
+                          handleShowDate(event.id, 'ReminderDetail');
+                        }}
+                      >
+                        <EventLabelText>{event.description}</EventLabelText>
+                      </EnventLabel>
+                    );
+                  }
                   return (
                     <EnventLabel
                       key={event.id}
-                      onPress={() => handleShowDate(event.id, 'ReminderDetail')}
+                      onPress={() => {
+                        handleShowDate(event.id, 'GenericReminderDetail');
+                      }}
+                      style={{ backgroundColor: '#2193f6' }}
                     >
                       <EventLabelText>{event.description}</EventLabelText>
                     </EnventLabel>
                   );
-                }
-                return (
-                  <EnventLabel
-                    key={event.id}
-                    onPress={() => {
-                      handleShowDate(event.id, 'GenericReminderDetail');
-                    }}
-                    style={{ backgroundColor: '#2193f6' }}
-                  >
-                    <EventLabelText>{event.description}</EventLabelText>
-                  </EnventLabel>
-                );
-              })}
-            </ListDatesMonth>
-          </ListDatesItem>
-        ))}
-      </ListDatesView>
-    </Container>
+                })}
+              </ListDatesMonth>
+            </ListDatesItem>
+          ))}
+        </ListDatesView>
+      </Container>
+      <FloatButton
+        onPress={() => navigate('CreateEvent')}
+        style={boxShadownEffect}
+      >
+        <Feather name="plus" color="#fff" size={24} />
+      </FloatButton>
+    </>
   );
 };
 

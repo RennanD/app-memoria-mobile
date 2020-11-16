@@ -202,12 +202,12 @@ const ReminderDetail: React.FC = () => {
                   <EventLabelDate>{reminder.title}</EventLabelDate>
                   <EventLabelDate>{reminder.formattedDate}</EventLabelDate>
                 </EnventLabel>
-                <CheckBox
+                {/* <CheckBox
                   onChange={() => {
                     handleActiveReminder(reminder._id, !reminder.active);
                   }}
                   value={reminder.active}
-                />
+                /> */}
               </ReminderContainer>
             ))
           ) : (

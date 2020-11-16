@@ -2,10 +2,10 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Menu from '../screens/Menu';
-import DateRoutes from './date.routes';
 import Notifications from '../screens/Notifications';
 
-// import EnviteFriends from '../screens/EnviteFriends';
+import DateRoutes from './date.routes';
+
 import InviteFriends from '../screens/InviteFriends';
 import ReminderDetail from '../screens/ReminderDetail';
 import Contacts from '../screens/Contacts';
@@ -16,6 +16,8 @@ import Profile from '../screens/Profile';
 import GenericReminderDetail from '../screens/GenericReminderDetail';
 import MyMessages from '../screens/MyMessages';
 import AcceptInvites from '../screens/AcceptInvites';
+// import ListDates from '../screens/ListDates';
+// import CreateEvent from '../screens/CreateEvent';
 
 const AppRoutes: React.FC = () => {
   const { Navigator, Screen } = createStackNavigator();
@@ -25,6 +27,7 @@ const AppRoutes: React.FC = () => {
       <Screen name="Menu" component={Menu} />
       <Screen name="PreferencesRoutes" component={Preferences} />
       <Screen name="DateRoutes" component={DateRoutes} />
+      {/* <Screen name="CreateEvent" component={CreateEvent} /> */}
       <Screen name="MessagesRoutes" component={MyMessages} />
       <Screen name="EnviteFriends" component={InviteFriends} />
       <Screen name="Notifications" component={Notifications} />

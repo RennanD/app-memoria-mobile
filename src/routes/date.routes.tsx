@@ -1,50 +1,24 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import CreateEvent from '../screens/CreateEvent';
+import NewContact from '../screens/CreateEvent/steps/NewContact';
+import PersonalDate from '../screens/CreateEvent/steps/PersonalDate';
+import WithContact from '../screens/CreateEvent/steps/WithContact';
 
-import CreateDate from '../screens/CreateDate';
 import ListDates from '../screens/ListDates';
 
 const DateRoutes: React.FC = () => {
-  const Tab = createBottomTabNavigator();
+  const { Screen, Navigator } = createStackNavigator();
 
   return (
-    <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: '#65C4B0',
-        keyboardHidesTabBar: true,
-      }}
-    >
-      <Tab.Screen
-        options={{
-          tabBarLabel: 'Minhas datas',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="calendar-text"
-              size={22}
-              color={color}
-            />
-          ),
-        }}
-        name="ListDates"
-        component={ListDates}
-      />
-      <Tab.Screen
-        options={{
-          tabBarLabel: 'Adicionar data',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="calendar-plus"
-              size={22}
-              color={color}
-            />
-          ),
-        }}
-        name="CreateDate"
-        component={CreateDate}
-      />
-    </Tab.Navigator>
+    <Navigator headerMode="none">
+      <Screen name="ListDates" component={ListDates} />
+      <Screen name="CreateEvent" component={CreateEvent} />
+      <Screen name="NewContact" component={NewContact} />
+      <Screen name="PersonalDate" component={PersonalDate} />
+      <Screen name="WithContact" component={WithContact} />
+    </Navigator>
   );
 };
 

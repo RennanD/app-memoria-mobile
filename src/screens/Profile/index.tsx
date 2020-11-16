@@ -28,6 +28,7 @@ import {
 } from './styles';
 
 import PreferencesAccordion from '../../components/PreferencesAccordion';
+import PikerBottomInput from '../../components/PikerBottomInput';
 
 import { Profile as ProfileIcon } from '../../assets';
 

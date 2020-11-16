@@ -13,6 +13,7 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 
 import api from '../services/api';
+import { useAuth } from './useAuth';
 
 interface Notification {
   _id: string;
@@ -37,6 +38,8 @@ export const NotificationProvider: React.FC = ({ children }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadNotifications, setUnreadNotifications] = useState(0);
   const [notificationsLoading, setNotificationsloading] = useState(false);
+
+  const { account } = useAuth();
 
   const getPushToken = useCallback(async () => {
     if (Constants.isDevice) {
@@ -108,20 +111,22 @@ export const NotificationProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     async function getNotifications() {
-      setNotificationsloading(true);
-      const response = await api.get('/notifications');
+      if (account) {
+        setNotificationsloading(true);
+        const response = await api.get('/notifications');
 
-      const findUnreadNotifications: Notification[] = response.data.filter(
-        (notification: Notification) => notification.read === false,
-      );
+        const findUnreadNotifications: Notification[] = response.data.filter(
+          (notification: Notification) => notification.read === false,
+        );
 
-      setUnreadNotifications(findUnreadNotifications.length);
+        setUnreadNotifications(findUnreadNotifications.length);
 
-      setNotifications(response.data);
+        setNotifications(response.data);
+      }
     }
 
     getNotifications();
-  }, []);
+  }, [account]);
 
   return (
     <NotificationsContext.Provider
