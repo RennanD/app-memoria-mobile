@@ -6,6 +6,8 @@ import { Calendar, DateObject } from 'react-native-calendars';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import { parseISO } from 'date-fns';
+
 import {
   Container,
   OptionsTitle,
@@ -64,7 +66,7 @@ const CreateEvent: React.FC = () => {
       Alert.alert('Erro', 'Selecione o dia e o tipo de data para continuar');
     } else {
       navigate(selectedDateType.route, {
-        data: { date: current },
+        date: parseISO(current),
       });
     }
   }, [current, navigate, selectedDateType]);

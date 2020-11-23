@@ -4,42 +4,50 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 
 import { useField } from '@unform/core';
 import { FlatList } from 'react-native';
-import api from '../../services/api';
 
 import {
   Container,
   InputContainer,
   Icon,
   Title,
-  SelectedContactContainer,
-  SelectedContactName,
+  SelectedItemContainer,
+  SelectedItemLabel,
   PlaceholderText,
+  ItemCard,
+  ItemLabel,
 } from './styles';
-
-import { User } from '../../hooks/useAuth';
-
-interface BottomSheetContactsSelectProps {
-  name: string;
-}
 
 interface InputValueReference {
   value: string;
 }
 
-interface Items {
+interface Item {
   value: string;
   label: string;
 }
 
-const BottomSheetContactsSelect: React.FC<BottomSheetContactsSelectProps> = ({
+interface BottomSheetPikerProps {
+  name: string;
+  items: Item[];
+  icon?: string;
+}
+
+const BottomSheetPiker: React.FC<BottomSheetPikerProps> = ({
   name,
+  items,
+  icon,
 }) => {
   const { fieldName, registerField, defaultValue = '' } = useField(name);
+
   const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
+
   const refRBSheet = useRef<any>();
 
-  const handleChangeSelectedItem = useCallback((value: string) => {
-    inputValueRef.current.value = value;
+  const [selectedItem, setSelectedItem] = useState<Item>({} as Item);
+
+  const handleChangeSelectedItem = useCallback((item: Item) => {
+    inputValueRef.current.value = item.value;
+    setSelectedItem(item);
     refRBSheet.current.close();
   }, []);
 
@@ -55,16 +63,20 @@ const BottomSheetContactsSelect: React.FC<BottomSheetContactsSelectProps> = ({
     <Container>
       <InputContainer
         onPress={() => refRBSheet.current.open()}
-        borderColor={selectedConatct ? '#25a182' : '#ddd'}
+        borderColor={selectedItem.value ? '#25a182' : '#ddd'}
       >
-        <Icon />
-        <SelectedContactContainer>
-          {selectedConatct ? (
-            <SelectedContactName>{selectedConatct}</SelectedContactName>
+        <Icon
+          name={icon || 'format-list-bulleted'}
+          size={30}
+          color={selectedItem.value ? '#25a182' : '#ddd'}
+        />
+        <SelectedItemContainer>
+          {selectedItem.label ? (
+            <SelectedItemLabel>{selectedItem.label}</SelectedItemLabel>
           ) : (
             <PlaceholderText>Selecione um contato da lista</PlaceholderText>
           )}
-        </SelectedContactContainer>
+        </SelectedItemContainer>
       </InputContainer>
 
       <RBSheet
@@ -73,16 +85,29 @@ const BottomSheetContactsSelect: React.FC<BottomSheetContactsSelectProps> = ({
         closeOnPressMask={false}
         height={550}
       >
-        <Title>Selecione um contato</Title>
+        <Title>Selecione uma opção</Title>
         <FlatList
-          data={contacts}
-          keyExtractor={contact => contact.id}
+          data={items}
+          keyExtractor={item => item.value}
           contentContainerStyle={{ paddingHorizontal: 15 }}
-          renderItem={({ item: contact }) => <View />}
+          renderItem={({ item }) => (
+            <ItemCard
+              onPress={() => {
+                handleChangeSelectedItem(item);
+              }}
+            >
+              <Icon
+                name={icon || 'format-list-bulleted'}
+                size={36}
+                color="#25a182"
+              />
+              <ItemLabel>{item.label}</ItemLabel>
+            </ItemCard>
+          )}
         />
       </RBSheet>
     </Container>
   );
 };
 
-export default BottomSheetContactsSelect;
+export default BottomSheetPiker;

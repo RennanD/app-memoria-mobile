@@ -77,7 +77,11 @@ const BottomSheetContactsSelect: React.FC<BottomSheetContactsSelectProps> = ({
         onPress={() => refRBSheet.current.open()}
         borderColor={selectedConatct ? '#25a182' : '#ddd'}
       >
-        <Icon />
+        <Icon
+          name="account-heart-outline"
+          size={30}
+          color={selectedConatct ? '#25a182' : '#ddd'}
+        />
         <SelectedContactContainer>
           {selectedConatct ? (
             <SelectedContactName>{selectedConatct}</SelectedContactName>
@@ -93,7 +97,7 @@ const BottomSheetContactsSelect: React.FC<BottomSheetContactsSelectProps> = ({
         closeOnPressMask={false}
         height={550}
       >
-        <Title>Selecione um contato</Title>
+        <Title>Selecione um contato do Memória</Title>
         <FlatList
           data={contacts}
           keyExtractor={contact => contact.id}

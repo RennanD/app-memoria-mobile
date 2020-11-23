@@ -31,11 +31,11 @@ export const Icon = styled(MaterialCommunityIcons)`
   margin-right: 10px;
 `;
 
-export const SelectedContactContainer = styled.View`
+export const SelectedItemContainer = styled.View`
   flex: 1;
 `;
 
-export const SelectedContactName = styled.Text`
+export const SelectedItemLabel = styled.Text`
   color: #333;
   font-size: 14px;
 `;
@@ -43,4 +43,20 @@ export const SelectedContactName = styled.Text`
 export const PlaceholderText = styled.Text`
   color: #999;
   font-size: 14px;
+`;
+
+export const ItemCard = styled.TouchableOpacity`
+  padding: 20px 0;
+  border-bottom-width: 1px;
+  border-bottom-color: #eee;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const ItemLabel = styled.Text`
+  color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 10px;
+  flex: 1;
 `;
