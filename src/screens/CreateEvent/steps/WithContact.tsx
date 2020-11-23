@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
@@ -33,6 +33,7 @@ interface FormData {
   reminderHour: string;
   subDays?: string;
 }
+
 // const reminderObjetc = {
 //   important_date_id,
 //   notification_message: data.notification_message,
@@ -44,6 +45,8 @@ interface FormData {
 
 const WithContact: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+
+  const [selectedFrequence, setSelectedFrequence] = useState('');
 
   const { params } = useRoute<RouteProps>();
 
@@ -59,7 +62,20 @@ const WithContact: React.FC = () => {
       }
 
       if (data.frequence === 'day' && data.subDays) {
-        const subDay = subDays(params.date, Number(data.subDays));
+        let initMonth = 0;
+        let endMonth = 0;
+        const days = [];
+        for (let count = Number(data.subDays); count >= 1; count -= 1) {
+          const subDay = subDays(params.date, Number(data.subDays));
+
+          if (count >= Number(data.subDays)) {
+            initMonth = subDay.getMonth() + 1;
+          }
+
+          if (count <= 1) {
+            endMonth = subDay.getMonth() + 1;
+          }
+        }
 
         // if
       }
@@ -89,11 +105,26 @@ const WithContact: React.FC = () => {
 
         <PikerBottomInput
           name="frequence"
+          placeholder="Frequência do lembrete"
           items={reminderFrequence}
           icon="calendar"
+          onChage={setSelectedFrequence}
         />
+        {selectedFrequence === 'day' && (
+          <PikerBottomInput
+            name="subDays"
+            placeholder="Dias de antecedências"
+            icon="calendar"
+            items={[
+              { label: '3 dias', value: '3' },
+              { label: '5 dias', value: '5' },
+              { label: '1 semana', value: '7' },
+            ]}
+          />
+        )}
         <PikerBottomInput
           name="reminderHour"
+          placeholder="Horário para o lembrete"
           icon="clock"
           items={[
             { label: '8hrs', value: '0 8' },

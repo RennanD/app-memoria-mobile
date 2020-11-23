@@ -30,12 +30,16 @@ interface BottomSheetPikerProps {
   name: string;
   items: Item[];
   icon?: string;
+  placeholder: string;
+  onChage?(value: string): void;
 }
 
 const BottomSheetPiker: React.FC<BottomSheetPikerProps> = ({
   name,
   items,
   icon,
+  placeholder,
+  onChage,
 }) => {
   const { fieldName, registerField, defaultValue = '' } = useField(name);
 
@@ -45,11 +49,17 @@ const BottomSheetPiker: React.FC<BottomSheetPikerProps> = ({
 
   const [selectedItem, setSelectedItem] = useState<Item>({} as Item);
 
-  const handleChangeSelectedItem = useCallback((item: Item) => {
-    inputValueRef.current.value = item.value;
-    setSelectedItem(item);
-    refRBSheet.current.close();
-  }, []);
+  const handleChangeSelectedItem = useCallback(
+    (item: Item) => {
+      inputValueRef.current.value = item.value;
+      setSelectedItem(item);
+      if (onChage) {
+        onChage(item.value);
+      }
+      refRBSheet.current.close();
+    },
+    [onChage],
+  );
 
   useEffect(() => {
     registerField({
@@ -74,7 +84,7 @@ const BottomSheetPiker: React.FC<BottomSheetPikerProps> = ({
           {selectedItem.label ? (
             <SelectedItemLabel>{selectedItem.label}</SelectedItemLabel>
           ) : (
-            <PlaceholderText>Selecione um contato da lista</PlaceholderText>
+            <PlaceholderText>{placeholder}</PlaceholderText>
           )}
         </SelectedItemContainer>
       </InputContainer>
