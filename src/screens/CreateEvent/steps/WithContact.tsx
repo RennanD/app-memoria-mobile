@@ -51,14 +51,16 @@ const WithContact: React.FC = () => {
   const { params } = useRoute<RouteProps>();
 
   const handleSubmitForm = useCallback(
-    (data: FormData) => {
+    async (data: FormData) => {
       let reminderCron = '';
       if (data.frequence === 'week') {
         reminderCron = `${data.reminderHour} * * ${params.date.getDay()}`;
       }
 
       if (data.frequence === 'mount') {
-        reminderCron = `${data.reminderHour} ${params.date.getMonth() + 1} * *`;
+        reminderCron = `${data.reminderHour} * ${
+          params.date.getMonth() + 1
+        } * `;
       }
 
       if (data.frequence === 'day' && data.subDays) {
@@ -66,7 +68,7 @@ const WithContact: React.FC = () => {
         let endMonth = 0;
         const days = [];
         for (let count = Number(data.subDays); count >= 1; count -= 1) {
-          const subDay = subDays(params.date, Number(data.subDays));
+          const subDay = subDays(params.date, Number(count));
 
           if (count >= Number(data.subDays)) {
             initMonth = subDay.getMonth() + 1;
@@ -75,15 +77,32 @@ const WithContact: React.FC = () => {
           if (count <= 1) {
             endMonth = subDay.getMonth() + 1;
           }
+
+          days.push(`${subDay.getDate()}`);
         }
 
-        // if
+        if (endMonth !== initMonth) {
+          reminderCron = `${data.reminderHour} ${String(
+            days,
+          )} ${initMonth}-${endMonth} *`;
+        } else {
+          reminderCron = `${data.reminderHour} ${String(days)} ${initMonth} *`;
+        }
       }
-      // await api.post('/dates', {
-      //   contact_id,
-      //   date,
-      //   description,
-      // });
+      const response = await api.post('/dates', {
+        contact_id: data.contact,
+        date: params.date,
+        description: data.description,
+      });
+
+      await api.post('/reminders', {
+        important_date_id: response.data.id,
+        notification_message: `Você adicionou um lembrete para "${data.description}"`,
+        title: 'Lembrete de uma data especial 🤩 🥳 ',
+        reminderDate: params.date,
+        parsed_date: 'mm-yy',
+        date: reminderCron,
+      });
     },
     [params.date],
   );
