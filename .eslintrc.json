@@ -33,6 +33,7 @@
     "no-underscore-dangle": "off",
     "object-curly-newline": "off",
     "react/jsx-props-no-spreading": "off",
+    "no-unused-expressions":"off",
     "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "error",
     "react/prop-types": "off",

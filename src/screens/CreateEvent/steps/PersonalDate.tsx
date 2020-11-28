@@ -101,6 +101,8 @@ const PersonalDate: React.FC = () => {
         parsed_date: 'mm-yy',
         date: reminderCron,
       });
+
+      formRef.current?.reset();
     },
     [params.date],
   );

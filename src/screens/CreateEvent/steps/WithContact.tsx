@@ -34,15 +34,6 @@ interface FormData {
   subDays?: string;
 }
 
-// const reminderObjetc = {
-//   important_date_id,
-//   notification_message: data.notification_message,
-//   title,
-//   reminderDate: subDaysReminder,
-//   parsed_date: stringDate,
-//   date: `${data.hour} ${getDay} ${getMonth} *`,
-// };
-
 const WithContact: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
@@ -103,6 +94,8 @@ const WithContact: React.FC = () => {
         parsed_date: 'mm-yy',
         date: reminderCron,
       });
+
+      formRef.current?.reset();
     },
     [params.date],
   );
