@@ -12,7 +12,7 @@ export const Header = styled.View`
   flex-direction: row;
   align-items: center;
   padding: 0 15px;
-  padding-top: ${Platform.OS === 'ios' && 40}px;
+  padding-top: ${Platform.OS === 'ios' ? '40px' : '0'};
 `;
 
 export const PageTitle = styled.Text`

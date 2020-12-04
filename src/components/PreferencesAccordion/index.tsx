@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -25,11 +25,19 @@ const PreferencesAccordion: React.FC<AccordionProps> = ({
   items,
   title,
 }) => {
+  const [activeItems, setActiveItems] = useState<string[]>(items);
+
   const handleRemovePreference = useCallback(
-    (category: string, subcategory: string) => {
-      api.delete(`preferences/person/${category}/${subcategory}`);
+    async (category: string, subcategory: string) => {
+      const filteredSubcategories = activeItems.filter(
+        subcategoryItem => subcategory !== subcategoryItem,
+      );
+
+      setActiveItems(filteredSubcategories);
+
+      await api.delete(`preferences/person/${category}/${subcategory}`);
     },
-    [],
+    [activeItems],
   );
 
   return (
@@ -44,7 +52,7 @@ const PreferencesAccordion: React.FC<AccordionProps> = ({
       </PreferencesButton>
       {opened && (
         <PreferencesItemList>
-          {items.map(preference => (
+          {activeItems.map(preference => (
             <PreferencesItem
               key={preference}
               style={{

@@ -33,15 +33,6 @@ interface FormData {
   subDays?: string;
 }
 
-// const reminderObjetc = {
-//   important_date_id,
-//   notification_message: data.notification_message,
-//   title,
-//   reminderDate: subDaysReminder,
-//   parsed_date: stringDate,
-//   date: `${data.hour} ${getDay} ${getMonth} *`,
-// };
-
 const PersonalDate: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
@@ -111,7 +102,7 @@ const PersonalDate: React.FC = () => {
     <Container>
       <Header>
         <Calendar height="60" width="60" />
-        <PageTitle>Envento para um contato</PageTitle>
+        <PageTitle>Envento pessoal</PageTitle>
       </Header>
       <Form ref={formRef} onSubmit={handleSubmitForm}>
         <Input
