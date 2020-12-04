@@ -16,6 +16,7 @@ interface InputProps extends TextInputProps {
   name: string;
   icon: string;
   borderColor?: string;
+  valueDefautlt?: string;
 }
 
 interface InputValueReference {
@@ -27,7 +28,7 @@ interface InputRef {
 }
 
 const TextInput: React.RefForwardingComponent<InputRef, InputProps> = (
-  { name, icon, borderColor = '#fff', ...rest },
+  { name, icon, borderColor = '#fff', valueDefautlt, ...rest },
   ref,
 ) => {
   const inputElementRef = useRef<any>(null);
@@ -46,6 +47,10 @@ const TextInput: React.RefForwardingComponent<InputRef, InputProps> = (
     setIsFocused(false);
     setIsFilled(!!inputValueRef.current.value);
   }, [setIsFilled, setIsFocused, inputValueRef]);
+
+  if (valueDefautlt) {
+    inputValueRef.current.value = valueDefautlt;
+  }
 
   useImperativeHandle(ref, () => ({
     focus() {

@@ -37,6 +37,7 @@ const PersonalDate: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const [selectedFrequence, setSelectedFrequence] = useState('');
+  const [sugestion, setSugestionFrequence] = useState('');
 
   const { params } = useRoute<RouteProps>();
 
@@ -110,6 +111,7 @@ const PersonalDate: React.FC = () => {
           icon="card-text-outline"
           placeholder="Descrição"
           borderColor="#ddd"
+          value={sugestion}
         />
 
         <PikerBottomInput
