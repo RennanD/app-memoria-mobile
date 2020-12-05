@@ -51,10 +51,10 @@ const WithContact: React.FC = () => {
         reminderCron = `${data.reminderHour} * * ${params.date.getDay()}`;
       }
 
-      if (data.frequence === 'mount') {
-        reminderCron = `${data.reminderHour} * ${
-          params.date.getMonth() + 1
-        } * `;
+      if (data.frequence === 'month') {
+        reminderCron = `${data.reminderHour} ${params.date.getDate()} * *`;
+        console.log(reminderCron);
+        return;
       }
 
       if (data.frequence === 'day' && data.subDays) {

@@ -104,10 +104,8 @@ const NewContact: React.FC = () => {
         reminderCron = `${data.reminderHour} * * ${params.date.getDay()}`;
       }
 
-      if (data.frequence === 'mount') {
-        reminderCron = `${data.reminderHour} * ${
-          params.date.getMonth() + 1
-        } * `;
+      if (data.frequence === 'month') {
+        reminderCron = `${data.reminderHour} ${params.date.getDate()} * *`;
       }
 
       if (data.frequence === 'day' && data.subDays) {
