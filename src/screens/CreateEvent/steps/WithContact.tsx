@@ -3,9 +3,10 @@ import React, { useCallback, useRef, useState } from 'react';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { subDays } from 'date-fns';
+import { Alert } from 'react-native';
 import { Container, Header, PageTitle } from './styles';
 
 import { Calendar } from '../../../assets';
@@ -41,6 +42,7 @@ const WithContact: React.FC = () => {
   const [selectedFrequence, setSelectedFrequence] = useState('');
 
   const { params } = useRoute<RouteProps>();
+  const { goBack } = useNavigation();
 
   const handleSubmitForm = useCallback(
     async (data: FormData) => {
@@ -96,9 +98,10 @@ const WithContact: React.FC = () => {
         date: reminderCron,
       });
 
-      formRef.current?.reset();
+      Alert.alert('Sucesso', 'Data cadastrada com sucesso!');
+      goBack();
     },
-    [params.date],
+    [goBack, params.date],
   );
 
   return (

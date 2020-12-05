@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 import {
   Container,
@@ -45,6 +45,8 @@ const ListDates: React.FC = () => {
 
   const { navigate } = useNavigation();
 
+  const focused = useIsFocused();
+
   const handleShowDate = useCallback(
     (eventId: string, route: string) => {
       navigate(route, { important_date_id: eventId });
@@ -76,8 +78,10 @@ const ListDates: React.FC = () => {
       setDates(data);
     }
 
-    loadDates();
-  }, [month]);
+    if (focused) {
+      loadDates();
+    }
+  }, [month, focused]);
 
   if (!dates.length) {
     return (

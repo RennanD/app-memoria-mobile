@@ -1,11 +1,12 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { subDays } from 'date-fns';
+import { Alert } from 'react-native';
 import { Container, Header, PageTitle } from './styles';
 
 import { Calendar } from '../../../assets';
@@ -89,9 +90,12 @@ const pickerItems = [
 ];
 
 const NewContact: React.FC = () => {
+  const [selectedFrequence, setSelectedFrequence] = useState('');
+
   const formRef = useRef<FormHandles>(null);
 
   const { params } = useRoute<RouteProps>();
+  const { goBack } = useNavigation();
 
   const handleSubmitForm = useCallback(
     async (data: FormData) => {
@@ -147,9 +151,10 @@ const NewContact: React.FC = () => {
         date: reminderCron,
       });
 
-      formRef.current?.reset();
+      Alert.alert('Sucesso', 'Data cadastrada com sucesso!');
+      goBack();
     },
-    [params.date],
+    [goBack, params.date],
   );
 
   return (
@@ -187,7 +192,20 @@ const NewContact: React.FC = () => {
           placeholder="Frequência do lembrete"
           items={reminderFrequence}
           icon="calendar"
+          onChage={setSelectedFrequence}
         />
+        {selectedFrequence === 'day' && (
+          <PikerBottomInput
+            name="subDays"
+            placeholder="Dias de antecedências"
+            icon="calendar"
+            items={[
+              { label: '3 dias', value: '3' },
+              { label: '5 dias', value: '5' },
+              { label: '1 semana', value: '7' },
+            ]}
+          />
+        )}
 
         <PikerBottomInput
           name="reminderHour"
