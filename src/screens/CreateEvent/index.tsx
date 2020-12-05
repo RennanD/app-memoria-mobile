@@ -1,9 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Feather } from '@expo/vector-icons';
 
 import { Calendar, DateObject } from 'react-native-calendars';
 
-import { Alert } from 'react-native';
+import RBSheet from 'react-native-raw-bottom-sheet';
+
+import { Alert, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { parseISO } from 'date-fns';
@@ -14,10 +16,13 @@ import {
   OptionsContainer,
   OptionButton,
   OptionText,
+  SeugestionCard,
+  SugestionName,
 } from './styles';
 import boxShadownEffect from '../../styles/boxShadow';
 
 import Button from '../../components/Button';
+import api from '../../services/api';
 
 const typeDateoptions = [
   {
@@ -45,13 +50,22 @@ interface SelectedDateType {
   route: string;
 }
 
+interface Sugestion {
+  _id: string;
+  title: string;
+}
+
 const CreateEvent: React.FC = () => {
-  const [current, setCurrent] = useState<string>('');
+  const [current, setCurrent] = useState('');
+  const [selectedSugestion, setSelectedSugestion] = useState('');
+  const [sugestionDate, setSugestionDate] = useState<Sugestion[]>([]);
   const [selectedDateType, setSelectedDateType] = useState<SelectedDateType>(
     {} as SelectedDateType,
   );
 
   const { navigate } = useNavigation();
+
+  const refRBSheet = useRef<any>();
 
   const handleSelectDate = useCallback((selectDate: DateObject) => {
     setCurrent(selectDate.dateString);
@@ -61,15 +75,33 @@ const CreateEvent: React.FC = () => {
     setSelectedDateType(dateType);
   }, []);
 
+  useEffect(() => {
+    async function loadSugestions() {
+      const response = await api.get('/dates/sugestions/description');
+      setSugestionDate(response.data);
+    }
+    loadSugestions();
+  }, []);
+
   const handleNextStep = useCallback(() => {
     if (!selectedDateType.key || !current) {
       Alert.alert('Erro', 'Selecione o dia e o tipo de data para continuar');
     } else {
       navigate(selectedDateType.route, {
         date: parseISO(current),
+        sugestion: selectedSugestion,
       });
     }
-  }, [current, navigate, selectedDateType]);
+  }, [current, navigate, selectedDateType, selectedSugestion]);
+
+  const handleSelectSugestion = useCallback(
+    (sugestion_title: string) => {
+      setSelectedSugestion(sugestion_title);
+      refRBSheet.current.close();
+      handleNextStep();
+    },
+    [handleNextStep],
+  );
 
   return (
     <Container>
@@ -102,7 +134,7 @@ const CreateEvent: React.FC = () => {
 
       <Button
         disabled={!selectedDateType.key}
-        onPress={handleNextStep}
+        onPress={() => refRBSheet.current.open()}
         style={{
           marginHorizontal: 10,
           marginTop: 30,
@@ -111,6 +143,30 @@ const CreateEvent: React.FC = () => {
       >
         Próximo
       </Button>
+
+      <RBSheet
+        ref={refRBSheet}
+        closeOnDragDown
+        closeOnPressMask={false}
+        height={550}
+      >
+        <OptionsTitle>Que data está cadastrando?</OptionsTitle>
+        <SeugestionCard onPress={() => handleSelectSugestion('')}>
+          <SugestionName style={{ color: '#2193f6' }}>Criar nova</SugestionName>
+        </SeugestionCard>
+        <FlatList
+          data={sugestionDate}
+          keyExtractor={sugestion => sugestion._id}
+          contentContainerStyle={{ paddingHorizontal: 15 }}
+          renderItem={({ item: sugestion }) => (
+            <SeugestionCard
+              onPress={() => handleSelectSugestion(sugestion.title)}
+            >
+              <SugestionName>{sugestion.title}</SugestionName>
+            </SeugestionCard>
+          )}
+        />
+      </RBSheet>
     </Container>
   );
 };

@@ -10,7 +10,6 @@ import { Container, Header, PageTitle } from './styles';
 
 import { Calendar } from '../../../assets';
 
-import BottomSheetContactsSelect from '../../../components/BottomSheetContactsSelect';
 import Input from '../../../components/TextInput';
 import PikerBottomInput from '../../../components/PikerBottomInput';
 import Button from '../../../components/Button';
@@ -23,6 +22,7 @@ interface RouteProps {
   name: string;
   params: {
     date: Date;
+    suguestion: string;
   };
 }
 
@@ -171,8 +171,9 @@ const NewContact: React.FC = () => {
           icon="card-text-outline"
           placeholder="Descrição"
           borderColor="#ddd"
+          defaultValue={params.suguestion}
         />
-        <BottomSheetContactsSelect name="contact" />
+        {/* <BottomSheetContactsSelect name="contact" /> */}
 
         <PikerBottomInput
           name="relationship"

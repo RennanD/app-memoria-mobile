@@ -62,3 +62,19 @@ export const Icon = styled(MaterialCommunityIcons)`
 export const Input = styled.TextInput`
   flex: 1;
 `;
+
+export const SeugestionCard = styled.TouchableOpacity`
+  padding: 20px;
+  border-bottom-width: 1px;
+  border-bottom-color: #eee;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const SugestionName = styled.Text`
+  color: #666;
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 10px;
+  flex: 1;
+`;

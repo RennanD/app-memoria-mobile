@@ -22,6 +22,7 @@ interface RouteProps {
   name: string;
   params: {
     date: Date;
+    sugestion: string;
   };
 }
 
@@ -37,7 +38,6 @@ const PersonalDate: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const [selectedFrequence, setSelectedFrequence] = useState('');
-  const [sugestion, setSugestionFrequence] = useState('');
 
   const { params } = useRoute<RouteProps>();
 
@@ -109,9 +109,9 @@ const PersonalDate: React.FC = () => {
         <Input
           name="description"
           icon="card-text-outline"
+          defaultValue={params.sugestion}
           placeholder="Descrição"
           borderColor="#ddd"
-          value={sugestion}
         />
 
         <PikerBottomInput

@@ -23,6 +23,7 @@ interface RouteProps {
   name: string;
   params: {
     date: Date;
+    sugestions: string;
   };
 }
 
@@ -112,6 +113,7 @@ const WithContact: React.FC = () => {
           icon="card-text-outline"
           placeholder="Descrição"
           borderColor="#ddd"
+          defaultValue={params.sugestions}
         />
         <BottomSheetContactsSelect name="contact" />
 
